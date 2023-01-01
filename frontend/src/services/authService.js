@@ -40,7 +40,7 @@ export const loginUser = async (userData) => {
       { withCredentials: true },
     );
     if (response.statusText === "OK") {
-      toast.success("Login Successful....");
+      toast.success("Login Successful.....");
     }
     return response.data;
   } catch (error) {
