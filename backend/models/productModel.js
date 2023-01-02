@@ -42,6 +42,10 @@ const productSchema = mongoose.Schema(
       type: Object,
       default: {},
     },
+    avatar: {
+      type: String,
+      //default:"ahsanjawed"
+    },
   },
   {
     timestamps: true,

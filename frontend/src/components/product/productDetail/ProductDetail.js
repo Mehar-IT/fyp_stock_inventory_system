@@ -19,7 +19,6 @@ const ProductDetail = () => {
   const { product, isLoading, isError, message } = useSelector(
     (state) => state.product
   );
-
   const stockStatus = (quantity) => {
     if (quantity > 0) {
       return <span className="--color-success">In Stock</span>;
@@ -45,9 +44,10 @@ const ProductDetail = () => {
         {product && (
           <div className="detail">
             <Card cardClass="group">
+
               {product?.image ? (
                 <img
-                  src={product.image.filePath}
+                  src={product.avatar}
                   alt={product.image.fileName}
                 />
               ) : (

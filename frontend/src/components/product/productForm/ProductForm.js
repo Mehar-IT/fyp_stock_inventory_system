@@ -2,6 +2,7 @@ import React from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Card from "../../card/Card";
+import FileBase from "react-file-base64";
 
 import "./ProductForm.scss";
 
@@ -14,6 +15,8 @@ const ProductForm = ({
   handleInputChange,
   handleImageChange,
   saveProduct,
+  avatar,
+  setAvatar,
 }) => {
   return (
     <div className="add-product">
@@ -82,7 +85,14 @@ const ProductForm = ({
             modules={ProductForm.modules}
             formats={ProductForm.formats}
           />
-
+          <label>Upload Avatar:</label>
+          <FileBase
+            type="file"
+            multiple={false}
+            onDone={({ base64 }) => {
+              setAvatar(base64);
+            }}
+          />
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">
               Save Product

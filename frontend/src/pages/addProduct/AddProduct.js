@@ -22,6 +22,7 @@ const AddProduct = () => {
   const [productImage, setProductImage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [description, setDescription] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   const isLoading = useSelector(selectIsLoading);
 
@@ -54,9 +55,7 @@ const AddProduct = () => {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("image", productImage);
-
-
-
+    formData.append("avatar", avatar);
     dispatch(createProduct(formData));
 
     navigate("/dashboard");
@@ -75,6 +74,8 @@ const AddProduct = () => {
         handleInputChange={handleInputChange}
         handleImageChange={handleImageChange}
         saveProduct={saveProduct}
+        avatar={avatar}
+        setAvatar={setAvatar}
       />
     </div>
   );
