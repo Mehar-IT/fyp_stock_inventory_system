@@ -21,7 +21,6 @@ import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
 import Contact from "./pages/contact/Contact";
 axios.defaults.withCredentials = true;
-
 function App() {
   const dispatch = useDispatch();
 

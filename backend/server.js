@@ -12,11 +12,11 @@ const path = require("path");
 
 const app = express();
 
+if (process.env.NODE_ENV !== "PRODUCTION") {
+  require("dotenv").config({ path: "config/config.env" });
+}
+
 // Middlewares
-app.use(express.json());
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(
   cors({
     // origin: ["http://localhost:3000", "https://pinvent-app.vercel.app"],
@@ -24,6 +24,11 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
