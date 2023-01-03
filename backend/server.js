@@ -50,7 +50,7 @@ mongoose
   .connect("mongodb://localhost:27017/stock")
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Server Running on port hassaan khan ${PORT}`);
+      console.log(`Server Running on port ${PORT}`);
     });
   })
   .catch((err) => console.log(err));

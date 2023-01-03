@@ -12,7 +12,6 @@ const {
   resetPassword,
 } = require("../controllers/userController");
 const protect = require("../middleWare/authMiddleware");
-
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);

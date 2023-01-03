@@ -115,7 +115,8 @@ const ProductList = ({ products, isLoading }) => {
 
               <tbody>
                 {currentItems.map((product, index) => {
-                  const { _id, name, category, price, quantity } = product;
+                  const { _id, user, name, category, price, quantity } =
+                    product;
                   return (
                     <tr key={_id}>
                       <td>{index + 1}</td>
@@ -136,18 +137,24 @@ const ProductList = ({ products, isLoading }) => {
                             <AiOutlineEye size={25} color={"purple"} />
                           </Link>
                         </span>
-                        <span>
-                          <Link to={`/edit-product/${_id}`}>
-                            <FaEdit size={20} color={"green"} />
-                          </Link>
-                        </span>
-                        <span>
-                          <FaTrashAlt
-                            size={20}
-                            color={"red"}
-                            onClick={() => confirmDelete(_id)}
-                          />
-                        </span>
+                        {user.bio === "admin" ? (
+                          <>
+                            <span>
+                              <Link to={`/edit-product/${_id}`}>
+                                <FaEdit size={20} color={"green"} />
+                              </Link>
+                            </span>
+                            <span>
+                              <FaTrashAlt
+                                size={20}
+                                color={"red"}
+                                onClick={() => confirmDelete(_id)}
+                              />
+                            </span>
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </td>
                     </tr>
                   );

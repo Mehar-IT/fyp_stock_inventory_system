@@ -32,7 +32,6 @@ export const createProduct = createAsyncThunk(
     }
   }
 );
-
 // Get all products
 export const getProducts = createAsyncThunk(
   "products/getAll",

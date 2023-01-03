@@ -8,7 +8,7 @@ import Card from "../../card/Card";
 import { SpinnerImg } from "../../loader/Loader";
 import "./ProductDetail.scss";
 import DOMPurify from "dompurify";
-
+import moment from "moment";
 const ProductDetail = () => {
   useRedirectLoggedOutUser("/login");
   const dispatch = useDispatch();
@@ -25,7 +25,6 @@ const ProductDetail = () => {
     }
     return <span className="--color-danger">Out Of Stock</span>;
   };
-
   useEffect(() => {
     if (isLoggedIn === true) {
       dispatch(getProduct(id));
@@ -35,7 +34,7 @@ const ProductDetail = () => {
       console.log(message);
     }
   }, [isLoggedIn, isError, message, dispatch]);
-
+  console.log(product);
   return (
     <div className="product-detail">
       <h3 className="--mt">Product Detail</h3>
@@ -44,12 +43,8 @@ const ProductDetail = () => {
         {product && (
           <div className="detail">
             <Card cardClass="group">
-
-              {product?.image ? (
-                <img
-                  src={product.avatar}
-                  alt={product.image.fileName}
-                />
+              {product?.avatar ? (
+                <img src={product.avatar} alt="image" />
               ) : (
                 <p>No image set for this product</p>
               )}
@@ -83,13 +78,14 @@ const ProductDetail = () => {
               }}
             ></div>
             <hr />
-            <code className="--color-dark">
-              Created on: {product.createdAt.toLocaleString("en-US")}
-            </code>
+            <b className="--color-dark">
+              {" "}
+              Created on: {moment(product.createdAt).fromNow()}
+            </b>
             <br />
-            <code className="--color-dark">
-              Last Updated: {product.updatedAt.toLocaleString("en-US")}
-            </code>
+            <b className="--color-dark">
+              Last Updated: {moment(product.updatedAt).fromNow()}
+            </b>
           </div>
         )}
       </Card>

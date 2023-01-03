@@ -27,16 +27,16 @@ const ProductForm = ({
             <code className="--color-dark">
               Supported Formats: jpg, jpeg, png
             </code>
-            <input
+            <FileBase
               type="file"
-              name="image"
-              onChange={(e) => handleImageChange(e)}
+              multiple={false}
+              onDone={({ base64 }) => {
+                setAvatar(base64);
+              }}
             />
 
-            {imagePreview != null ? (
-              <div className="image-preview">
-                <img src={imagePreview} alt="product" />
-              </div>
+            {avatar ? (
+              <p>Image is set for this poduct.</p>
             ) : (
               <p>No image set for this poduct.</p>
             )}
@@ -84,14 +84,6 @@ const ProductForm = ({
             onChange={setDescription}
             modules={ProductForm.modules}
             formats={ProductForm.formats}
-          />
-          <label>Upload Avatar:</label>
-          <FileBase
-            type="file"
-            multiple={false}
-            onDone={({ base64 }) => {
-              setAvatar(base64);
-            }}
           />
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">

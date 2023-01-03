@@ -55,7 +55,11 @@ const createProduct = asyncHandler(async (req, res) => {
 
 // Get all Products
 const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({ user: req.user.id }).sort("-createdAt");
+  const products = await Product.find({
+    user: req.user.id,
+  })
+    .populate("user", "name email bio")
+    .sort({ createdAt: -1 });
   res.status(200).json(products);
 });
 
