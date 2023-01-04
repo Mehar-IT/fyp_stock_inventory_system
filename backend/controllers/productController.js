@@ -60,7 +60,7 @@ const getProducts = asyncHandler(async (req, res) => {
   })
     .populate("user", "name email bio")
     .sort({ createdAt: -1 });
-  console.log(req.user.bio);
+
   res.status(200).json(products);
 });
 
@@ -89,18 +89,22 @@ const deleteProduct = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
   // Match product to its user
-  if (product.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
+  // if (product.user.toString() !== req.user.id) {
+  //   res.status(401);
+  //   throw new Error("User not authorized");
+  // }
   await product.remove();
   res.status(200).json({ message: "Product deleted." });
 });
 
 // Update Product
 const updateProduct = asyncHandler(async (req, res) => {
+
   const { name, category, quantity, price, description } = req.body;
   const { id } = req.params;
+
+
+
 
   const product = await Product.findById(id);
 
@@ -154,13 +158,15 @@ const updateProduct = asyncHandler(async (req, res) => {
       runValidators: true,
     }
   );
+
+
   res.status(200).json(updatedProduct);
 });
 // get all products -- admin
 const getAllProducts = asyncHandler(async (req, res) => {
   const products = await Product.find()
-    .populate("user", "name email bio")
-    .sort({ createdAt: -1 });
+  // .populate("user", "name email bio")
+  // .sort({ createdAt: -1 });
   res.status(200).json({ products });
 });
 // get single product -- admin
@@ -188,6 +194,8 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
     throw new Error(`invalid ID ${_id}`);
   }
   const { name, category, quantity, price, description } = req.body;
+
+
   const newUpdateData = {
     name,
     category,
@@ -195,6 +203,8 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
     price,
     description,
   };
+
+
   const update_product = await Product.findByIdAndUpdate(_id, newUpdateData, {
     new: true,
   });

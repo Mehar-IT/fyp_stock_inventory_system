@@ -18,10 +18,13 @@ const ProductForm = ({
   avatar,
   setAvatar,
 }) => {
+
+
   return (
     <div className="add-product">
       <Card cardClass={"card"}>
-        <form onSubmit={saveProduct}>
+        <form encType="multipart/form-data" onSubmit={saveProduct}>
+
           <Card cardClass={"group"}>
             <label>Product Image</label>
             <code className="--color-dark">
@@ -42,6 +45,7 @@ const ProductForm = ({
             )}
           </Card>
           <label>Product Name:</label>
+
           <input
             type="text"
             placeholder="Product name"
@@ -80,6 +84,7 @@ const ProductForm = ({
           <label>Product Description:</label>
           <ReactQuill
             theme="snow"
+
             value={description}
             onChange={setDescription}
             modules={ProductForm.modules}

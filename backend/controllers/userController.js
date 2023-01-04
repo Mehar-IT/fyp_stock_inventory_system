@@ -115,6 +115,8 @@ const loginUser = asyncHandler(async (req, res) => {
         bio,
         token,
       });
+
+
   } else {
     res.status(400);
     throw new Error("Invalid email or password");
@@ -239,7 +241,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Create Reste Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-  console.log(resetToken);
+
 
   // Hash token before saving to DB
   const hashedToken = crypto

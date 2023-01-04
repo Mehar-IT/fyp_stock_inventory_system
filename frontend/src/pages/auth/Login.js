@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser, validateEmail } from "../../services/authService";
-import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
+import { SET_LOGIN, SET_NAME, SET_USER } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
 
 const initialState = {
@@ -45,8 +45,11 @@ const Login = () => {
     try {
       const data = await loginUser(userData);
 
+
       dispatch(SET_LOGIN(true));
       dispatch(SET_NAME(data.name));
+      dispatch(SET_USER(data));
+
       navigate("/dashboard");
       setIsLoading(false);
     } catch (error) {

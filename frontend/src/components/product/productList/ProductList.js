@@ -14,13 +14,14 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import {
   deleteProduct,
-  getProducts,
+  getAllProducts,
 } from "../../../redux/features/product/productSlice";
 import { Link } from "react-router-dom";
 
 const ProductList = ({ products, isLoading }) => {
   const [search, setSearch] = useState("");
   const filteredProducts = useSelector(selectFilteredPoducts);
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -33,9 +34,9 @@ const ProductList = ({ products, isLoading }) => {
   };
 
   const delProduct = async (id) => {
-    console.log(id);
-    await dispatch(deleteProduct(id));
-    await dispatch(getProducts());
+
+    dispatch(deleteProduct(id));
+    dispatch(getAllProducts());
   };
 
   const confirmDelete = (id) => {
@@ -115,8 +116,10 @@ const ProductList = ({ products, isLoading }) => {
 
               <tbody>
                 {currentItems.map((product, index) => {
-                  const { _id, user, name, category, price, quantity } =
+                  const { _id, name, category, price, quantity } =
                     product;
+
+
                   return (
                     <tr key={_id}>
                       <td>{index + 1}</td>

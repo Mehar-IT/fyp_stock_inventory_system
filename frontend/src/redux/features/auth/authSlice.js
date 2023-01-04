@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, } from "@reduxjs/toolkit";
 
 const name = JSON.parse(localStorage.getItem("name"));
 
@@ -27,6 +27,7 @@ const authSlice = createSlice({
     },
     SET_USER(state, action) {
       const profile = action.payload;
+
       state.user.name = profile.name;
       state.user.email = profile.email;
       state.user.phone = profile.phone;

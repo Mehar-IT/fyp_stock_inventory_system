@@ -23,8 +23,8 @@ router
   .delete(protect, authorizeRole("admin"), deleteSingleProduct);
 // admin routes ended
 router.post("/", protect, upload.single("image"), createProduct);
-router.patch("/:id", protect, upload.single("image"), updateProduct);
+// router.patch("/:id", protect, upload.single("image"), updateProduct);
 router.get("/", protect, getProducts);
 router.get("/:id", protect, getProduct);
-router.delete("/:id", protect, deleteProduct);
+// router.delete("/:id", protect, authorizeRole("admin"), deleteProduct);
 module.exports = router;

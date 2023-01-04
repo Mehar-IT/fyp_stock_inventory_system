@@ -5,8 +5,8 @@ import Loader from "../../components/loader/Loader";
 import ProductForm from "../../components/product/productForm/ProductForm";
 import {
   getProduct,
-  getProducts,
-  selectIsLoading,
+  getAllProducts,
+  // selectIsLoading,
   selectProduct,
   updateProduct,
 } from "../../redux/features/product/productSlice";
@@ -15,32 +15,41 @@ const EditProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLoading = useSelector(selectIsLoading);
+  // const isLoading = useSelector(selectIsLoading);
 
   const productEdit = useSelector(selectProduct);
 
-  const [product, setProduct] = useState(productEdit);
+
+
+  const [product, setProduct] = useState("");
   const [productImage, setProductImage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [description, setDescription] = useState("");
+  const [avatar, setAvatar] = useState("")
 
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
 
   useEffect(() => {
-    setProduct(productEdit);
+
+    setProduct(productEdit?.product);
 
     setImagePreview(
-      productEdit && productEdit.image ? `${productEdit.image.filePath}` : null
+      productEdit && productEdit.product.avatar
+    );
+    setAvatar(
+      productEdit && productEdit.product.avatar
+    )
+    setDescription(
+      productEdit && productEdit.product.description
     );
 
-    setDescription(
-      productEdit && productEdit.description ? productEdit.description : ""
-    );
   }, [productEdit]);
 
   const handleInputChange = (e) => {
+
+
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
@@ -52,38 +61,51 @@ const EditProduct = () => {
 
   const saveProduct = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", product?.name);
+    // const formData = new FormData();
+    // formData.append("name", product?.name);
 
-    formData.append("category", product?.category);
-    formData.append("quantity", product?.quantity);
-    formData.append("price", product?.price);
-    formData.append("description", description);
-    if (productImage) {
-      formData.append("image", productImage);
+    // formData.append("category", product?.category);
+    // formData.append("quantity", product?.quantity);
+    // formData.append("price", product?.price);
+    // formData.append("description", description);
+
+    // if (avatar) {
+    //   formData.append("image", avatar);
+    // }
+    const formData = {
+      "name": product?.name,
+      "category": product?.category,
+      "price": product?.price,
+      "quantity": product?.quantit,
+      "description": description,
+      "image": avatar
     }
 
-    console.log(...formData);
 
-    await dispatch(updateProduct({ id, formData }));
-    await dispatch(getProducts());
+    dispatch(updateProduct({ id, formData }));
+    dispatch(getAllProducts());
     navigate("/dashboard");
   };
 
+
   return (
     <div>
-      {isLoading && <Loader />}
-      <h3 className="--mt">Edit Product</h3>
-      <ProductForm
-        product={product}
-        productImage={productImage}
-        imagePreview={imagePreview}
-        description={description}
-        setDescription={setDescription}
-        handleInputChange={handleInputChange}
-        handleImageChange={handleImageChange}
-        saveProduct={saveProduct}
-      />
+      {!product ? <Loader /> :
+        <>
+          <h3 className="--mt">Edit Product</h3>
+          <ProductForm
+            product={product}
+            productImage={productImage}
+            imagePreview={imagePreview}
+            description={description}
+            setDescription={setDescription}
+            handleInputChange={handleInputChange}
+            handleImageChange={handleImageChange}
+            saveProduct={saveProduct}
+            avatar={avatar}
+            setAvatar={setAvatar}
+          />
+        </>}
     </div>
   );
 };
