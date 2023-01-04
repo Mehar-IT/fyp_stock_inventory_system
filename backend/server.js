@@ -11,7 +11,10 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 
 const app = express();
-
+app.use((request, response, next) => {
+  console.log(request.path + " " + request.method);
+  next();
+});
 if (process.env.NODE_ENV !== "PRODUCTION") {
   require("dotenv").config({ path: "config/config.env" });
 }
@@ -28,7 +31,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

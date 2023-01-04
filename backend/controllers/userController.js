@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const Token = require("../models/tokenModel");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
-
+const mongoose = require("mongoose");
 // Generate Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -44,25 +44,26 @@ const registerUser = asyncHandler(async (req, res) => {
   const token = generateToken(user._id);
 
   // Send HTTP-only cookie
-  res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 86400), // 1 day
-    sameSite: "none",
-    secure: true,
-  });
-
   if (user) {
     const { _id, name, email, photo, phone, bio } = user;
-    res.status(201).json({
-      _id,
-      name,
-      email,
-      photo,
-      phone,
-      bio,
-      token,
-    });
+    res
+      .status(201)
+      .cookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 86400), // 1 day
+        sameSite: "none",
+        secure: true,
+      })
+      .json({
+        _id,
+        name,
+        email,
+        photo,
+        phone,
+        bio,
+        token,
+      });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
@@ -94,25 +95,26 @@ const loginUser = asyncHandler(async (req, res) => {
   const token = generateToken(user._id);
 
   // Send HTTP-only cookie
-  res.cookie("token", token, {
-    path: "/",
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000 * 86400), // 1 day
-    sameSite: "none",
-    secure: true,
-  });
-
   if (user && passwordIsCorrect) {
     const { _id, name, email, photo, phone, bio } = user;
-    res.status(200).json({
-      _id,
-      name,
-      email,
-      photo,
-      phone,
-      bio,
-      token,
-    });
+    res
+      .status(200)
+      .cookie("token", token, {
+        path: "/",
+        httpOnly: true,
+        expires: new Date(Date.now() + 1000 * 86400), // 1 day
+        sameSite: "none",
+        secure: true,
+      })
+      .json({
+        _id,
+        name,
+        email,
+        photo,
+        phone,
+        bio,
+        token,
+      });
   } else {
     res.status(400);
     throw new Error("Invalid email or password");
@@ -279,7 +281,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
     throw new Error("Email not sent, please try again");
   }
 });
-
 // Reset Password
 const resetPassword = asyncHandler(async (req, res) => {
   const { password } = req.body;
@@ -310,7 +311,66 @@ const resetPassword = asyncHandler(async (req, res) => {
     message: "Password Reset Successful, Please Login",
   });
 });
-
+// get all users -- admin
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find().sort({ createdAt: -1 });
+  if (!users) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  res.status(200).json({ users });
+});
+// get Single User --Admin
+const getSingleUser = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    res.status(404);
+    throw new Error(`invalid ID ${_id}`);
+  }
+  const user = await User.findById(_id);
+  // if user doesnt exist
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+  res.status(200).json({ user });
+});
+// update Single User --Admin
+const updateSingleUser = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    res.status(404);
+    throw new Error(`invalid ID ${_id}`);
+  }
+  const { name, phone, bio } = req.body;
+  const newUpdateData = {
+    name,
+    phone,
+    bio,
+  };
+  const update_profile = await User.findByIdAndUpdate(_id, newUpdateData, {
+    new: true,
+  });
+  if (!update_profile) {
+    res.status(404);
+    throw new Error("Profile is not updated");
+  }
+  res.status(200).json({ update_profile });
+});
+// delete single profile --Admin
+const deleteSingleProfile = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id)) {
+    res.status(404);
+    throw new Error(`invalid ID ${_id}`);
+  }
+  const delete_profile = await User.findByIdAndRemove(_id);
+  if (!delete_profile) {
+    res.status(404);
+    throw new Error("Profile is not Deleted");
+  }
+  res.status(200).json({ delete_profile });
+});
 module.exports = {
   registerUser,
   loginUser,
@@ -321,4 +381,8 @@ module.exports = {
   changePassword,
   forgotPassword,
   resetPassword,
+  getAllUsers, // --admin
+  getSingleUser, // --admin
+  updateSingleUser, // --admin
+  deleteSingleProfile, // --Admin
 };
