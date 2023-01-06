@@ -101,6 +101,7 @@ const UsersList = () => {
         { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
 
         {
+
             field: "email",
             headerName: "Email",
             minWidth: 200,
@@ -147,6 +148,7 @@ const UsersList = () => {
                                 color={"green"} />
                         </Link>
                         <FaTrashAlt
+                            className="deleteButton"
                             size={20}
                             color={"red"}
                             onClick={() => confirmDelete(row.id)}
