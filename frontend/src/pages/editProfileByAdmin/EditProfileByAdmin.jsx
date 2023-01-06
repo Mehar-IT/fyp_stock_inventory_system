@@ -23,7 +23,13 @@ const EditProfileByAdmin = () => {
   const user = useSelector(selectUser);
   // const { email } = selectUserDetail;
   const { id } = useParams();
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    bio: "",
+    photo: "",
+  });
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -37,11 +43,11 @@ const EditProfileByAdmin = () => {
 
   useEffect(() => {
     const initialState = {
-      name: userDetail?.name,
-      email: userDetail?.email,
-      phone: userDetail?.phone,
-      bio: userDetail?.bio,
-      photo: userDetail?.photo,
+      name: userDetail?.name || "",
+      email: userDetail?.email || "",
+      phone: userDetail?.phone || "",
+      bio: userDetail?.bio || "",
+      photo: userDetail?.photo || "",
     };
 
     setProfile(initialState);
@@ -50,7 +56,7 @@ const EditProfileByAdmin = () => {
     // }
   }, [dispatch, navigate, userDetail]);
 
-  const [profileImage, setProfileImage] = useState("");
+  // const [profileImage, setProfileImage] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -110,16 +116,14 @@ const EditProfileByAdmin = () => {
       toast.error(error.message);
     }
   };
-  if (!userDetail) {
+  if (isLoading) {
     return <Loader />;
   }
   return (
     <div className="profile --my2">
-      {/* {isLoading && <Loader />} */}
-
       <Card cardClass={"card --flex-dir-column"}>
         <span className="profile-photo">
-          <img src={userDetail?.photo} alt="profilepic" />
+          <img src={profile?.photo} alt="profilepic" />
         </span>
         <form className="--form-control --m" onSubmit={saveProfile}>
           <span className="profile-data">
@@ -128,18 +132,13 @@ const EditProfileByAdmin = () => {
               <input
                 type="text"
                 name="name"
-                value={userDetail?.name}
+                value={profile?.name}
                 onChange={handleInputChange}
               />
             </p>
             <p>
               <label>Email:</label>
-              <input
-                type="text"
-                name="email"
-                value={userDetail?.email}
-                disabled
-              />
+              <input type="text" name="email" value={profile?.email} disabled />
               <br />
               <code>Email cannot be changed.</code>
             </p>
@@ -148,7 +147,7 @@ const EditProfileByAdmin = () => {
               <input
                 type="text"
                 name="phone"
-                value={userDetail?.phone}
+                value={profile?.phone}
                 onChange={handleInputChange}
               />
             </p>
@@ -157,7 +156,7 @@ const EditProfileByAdmin = () => {
                 <label>Role:</label>
                 <select
                   name="bio"
-                  value={userDetail?.bio}
+                  value={profile?.bio}
                   onChange={handleInputChange}
                 >
                   <option value="user">user</option>

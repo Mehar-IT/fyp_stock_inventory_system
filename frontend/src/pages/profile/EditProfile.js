@@ -30,7 +30,7 @@ const EditProfile = () => {
     photo: user?.photo,
   };
   const [profile, setProfile] = useState(initialState);
-  const [profileImage, setProfileImage] = useState("");
+  const [profileImage, setProfileImage] = useState(user?.photo);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +40,7 @@ const EditProfile = () => {
   // const handleImageChange = (e) => {
   //   setProfileImage(e.target.files[0]);
   // };
+
 
   const saveProfile = async (e) => {
     e.preventDefault();
@@ -81,6 +82,7 @@ const EditProfile = () => {
         photo: profileImage,
       };
 
+
       updateUser(formData);
 
       toast.success("User updated");
@@ -94,13 +96,16 @@ const EditProfile = () => {
     }
   };
 
+
   return (
     <div className="profile --my2">
       {isLoading && <Loader />}
 
       <Card cardClass={"card --flex-dir-column"}>
         <span className="profile-photo">
-          <img src={user?.photo} alt="profilepic" />
+          {/* <img src={user?.photo} alt="profilepic" /> */}
+          <img src={profileImage} alt="profilepic" />
+          {/* <img src={profile?.photo} alt="profilepic" /> */}
         </span>
         <form className="--form-control --m" onSubmit={saveProfile}>
           <span className="profile-data">
@@ -128,16 +133,7 @@ const EditProfile = () => {
                 onChange={handleInputChange}
               />
             </p>
-            {user.bio === 'admin' && <p>
-              <label>Bio:</label>
-              <textarea
-                name="bio"
-                value={profile?.bio}
-                onChange={handleInputChange}
-                cols="30"
-                rows="10"
-              ></textarea>
-            </p>}
+
             <p>
               <label>Photo:</label>
               <FileBase

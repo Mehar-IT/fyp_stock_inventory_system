@@ -86,29 +86,30 @@ function App() {
               </Sidebar>
             }
           />
+          <Route
+            path="/edit-profile"
+            element={
+              <Sidebar>
+                <Layout>
+                  <EditProfile />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </Sidebar>
+            }
+          />
         </Route>
 
 
-        <Route
-          path="/edit-profile"
-          element={
-            <Sidebar>
-              <Layout>
-                <EditProfile />
-              </Layout>
-            </Sidebar>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <Sidebar>
-              <Layout>
-                <Profile />
-              </Layout>
-            </Sidebar>
-          }
-        />
+
         <Route
           element={
             <ProtectedRoute

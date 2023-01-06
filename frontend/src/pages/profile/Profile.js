@@ -24,8 +24,10 @@ const Profile = () => {
 
       setProfile(data);
       setIsLoading(false);
-      await dispatch(SET_USER(data));
-      await dispatch(SET_NAME(data.name));
+      dispatch(SET_USER(data));
+      dispatch(SET_NAME(data.name));
+
+
     }
     getUserData();
   }, [dispatch]);
