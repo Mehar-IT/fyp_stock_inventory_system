@@ -6,6 +6,7 @@ const Token = require("../models/tokenModel");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const mongoose = require("mongoose");
+
 // Generate Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -41,33 +42,51 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   //   Generate Token
-  const token = generateToken(user._id);
+  // const token = generateToken(user._id);
+  const message = `your request is sent to admin please wait for admin approval :- \n\n ${resetPassword} \n\n If you have not requested this email then, please ignore it`;
 
-  // Send HTTP-only cookie
-  if (user) {
-    const { _id, name, email, photo, phone, bio } = user;
-    res
-      .status(201)
-      .cookie("token", token, {
-        path: "/",
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000 * 86400), // 1 day
-        sameSite: "none",
-        secure: true,
-      })
-      .json({
-        _id,
-        name,
-        email,
-        photo,
-        phone,
-        bio,
-        token,
-      });
-  } else {
-    res.status(400);
-    throw new Error("Invalid user data");
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `Register Approval request`,
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      user,
+      message: `Email sent to ${user.email} successfully`,
+    });
+  } catch (error) {
+
+    res.status(500);
+    throw new Error("Email not sent, please try again");
   }
+  // // Send HTTP-only cookie
+  // if (user) {
+  //   const { _id, name, email, photo, phone, bio } = user;
+  //   res
+  //     .status(201)
+  //     .cookie("token", token, {
+  //       path: "/",
+  //       httpOnly: true,
+  //       expires: new Date(Date.now() + 1000 * 86400), // 1 day
+  //       sameSite: "none",
+  //       secure: true,
+  //     })
+  //     .json({
+  //       _id,
+  //       name,
+  //       email,
+  //       photo,
+  //       phone,
+  //       bio,
+  //       token,
+  //     });
+  // } else {
+  //   res.status(400);
+  //   throw new Error("Invalid user data");
+  // }
 });
 
 // Login User
@@ -276,7 +295,12 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const sent_from = process.env.EMAIL_USER;
 
   try {
-    await sendEmail(subject, message, send_to, sent_from);
+    // await sendEmail(subject, message, send_to, sent_from);
+    await sendEmail({
+      email: user.email,
+      subject,
+      message,
+    });
     res.status(200).json({ success: true, message: "Reset Email Sent" });
   } catch (error) {
     res.status(500);
@@ -350,14 +374,36 @@ const updateSingleUser = asyncHandler(async (req, res) => {
     phone,
     bio,
   };
-  const update_profile = await User.findByIdAndUpdate(_id, newUpdateData, {
+  const user = await User.findByIdAndUpdate(_id, newUpdateData, {
     new: true,
   });
-  if (!update_profile) {
+  if (!user) {
     res.status(404);
     throw new Error("Profile is not updated");
   }
-  res.status(200).json({ update_profile });
+  const message = `you are updated by Admin here is your details :- \n\n ${{
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  }}\n\n`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `Approval Message`,
+      message,
+    });
+    // res.status(200).json({ user });
+    res.status(200).json({
+      user,
+      message: `user is updated and Email is sent to ${user.email} successfully...`,
+    });
+  } catch (error) {
+    res.status(500);
+    throw new Error("Email not sent, please try again");
+  }
+
+
 });
 // delete single profile --Admin
 const deleteSingleProfile = asyncHandler(async (req, res) => {

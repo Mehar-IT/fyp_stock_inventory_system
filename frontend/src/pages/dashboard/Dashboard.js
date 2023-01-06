@@ -22,7 +22,7 @@ const Dashboard = () => {
   useEffect(() => {
 
     if (isLoggedIn === true) {
-      user.bio === 'admin' ?
+      user.bio === 'superAdmin' ?
         dispatch(getAllProducts())
         : dispatch(getProducts());
     }

@@ -105,9 +105,9 @@ const EditProfileByAdmin = () => {
         // photo: profileImage,
       };
 
-      updateUserByAdmin({ id, formData });
-
+      const data = await updateUserByAdmin({ id, formData });
       toast.success("User updated");
+      toast.info(data.message);
       navigate("/user-list");
       setIsLoading(false);
     } catch (error) {
@@ -151,7 +151,7 @@ const EditProfileByAdmin = () => {
                 onChange={handleInputChange}
               />
             </p>
-            {user.bio === "admin" && (
+            {user.bio === "superAdmin" && (
               <p>
                 <label>Role:</label>
                 <select
@@ -161,6 +161,7 @@ const EditProfileByAdmin = () => {
                 >
                   <option value="user">user</option>
                   <option value="admin">admin</option>
+                  <option value="superAdmin">Super Admin</option>
                 </select>
                 {/* <textarea
                   name="bio"

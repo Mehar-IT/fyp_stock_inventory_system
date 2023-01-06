@@ -38,23 +38,27 @@ function App() {
     }
     loginStatus();
   }, [dispatch]);
-
+  const roles = ['admin', 'superAdmin']
   return (
     <BrowserRouter>
       <ToastContainer />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
+        <Route path="/" element={<Home />} />
         <Route
           element={
             <ProtectedRoute
               isAuthenticated={isLoggedIn}
+              adminRoute={true}
+              // isAdmin={user && user.bio === "admin" ? true : false}
+              isAdmin={roles.includes(user.bio)}
             />
           }
         >
+
           <Route
             path="/dashboard"
             element={
@@ -106,6 +110,16 @@ function App() {
               </Sidebar>
             }
           />
+          <Route
+            path="/contact-us"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Contact />
+                </Layout>
+              </Sidebar>
+            }
+          />
         </Route>
 
 
@@ -114,8 +128,8 @@ function App() {
           element={
             <ProtectedRoute
               isAuthenticated={isLoggedIn}
-              adminRoute={true}
-              isAdmin={user && user.bio === "admin" ? true : false}
+              superAdmin={true}
+              isAdmin={user && user.bio === "superAdmin" ? true : false}
             />
           }
         >
@@ -152,16 +166,7 @@ function App() {
           />
 
         </Route>
-        <Route
-          path="/contact-us"
-          element={
-            <Sidebar>
-              <Layout>
-                <Contact />
-              </Layout>
-            </Sidebar>
-          }
-        />
+
       </Routes>
     </BrowserRouter>
   );

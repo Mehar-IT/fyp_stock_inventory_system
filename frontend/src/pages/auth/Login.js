@@ -44,12 +44,15 @@ const Login = () => {
     setIsLoading(true);
     try {
       const data = await loginUser(userData);
-
-
-      dispatch(SET_LOGIN(true));
-      dispatch(SET_NAME(data.name));
-      dispatch(SET_USER(data));
-
+      const roles = ['admin', 'superAdmin']
+      if (roles.includes(data.bio)) {
+        dispatch(SET_LOGIN(true));
+        dispatch(SET_NAME(data.name));
+        dispatch(SET_USER(data));
+        toast.success("Login Successful.....");
+      } else {
+        toast.info('sorry you are not allowed')
+      }
       navigate("/dashboard");
       setIsLoading(false);
     } catch (error) {

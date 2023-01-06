@@ -4,9 +4,9 @@ import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { SET_LOGIN, SET_NAME } from "../../redux/features/auth/authSlice";
+// import { SET_LOGIN, SET_NAME, } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const Register = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
@@ -52,10 +52,12 @@ const Register = () => {
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
-
-      dispatch(SET_LOGIN(true));
-      dispatch(SET_NAME(data.name));
-      navigate("/dashboard");
+      // console.log(data);
+      toast.info(data.message)
+      // dispatch(SET_LOGIN(true));
+      // dispatch(SET_NAME(data.name));
+      // dispatch(SET_LOGIN_MESSAGE(data.message));
+      navigate("/login");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

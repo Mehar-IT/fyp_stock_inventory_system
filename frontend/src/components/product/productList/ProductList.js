@@ -140,7 +140,7 @@ const ProductList = ({ products, isLoading }) => {
                             <AiOutlineEye size={25} color={"purple"} />
                           </Link>
                         </span>
-                        {user.bio === "admin" ? (
+                        {user.bio === "superAdmin" ? (
                           <>
                             <span>
                               <Link to={`/edit-product/${_id}`}>
