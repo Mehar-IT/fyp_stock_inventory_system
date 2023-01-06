@@ -11,7 +11,7 @@ import Layout from "./components/layout/Layout";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLoginStatus } from "./services/authService";
 import { SET_LOGIN } from "./redux/features/auth/authSlice";
 import AddProduct from "./pages/addProduct/AddProduct";
@@ -20,9 +20,16 @@ import EditProduct from "./pages/editProduct/EditProduct";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
 import Contact from "./pages/contact/Contact";
+import ProtectedRoute from './components/Route/ProtectedRoute'
+import { selectUser } from './redux/features/auth/authSlice'
+import UsersList from "./components/userList/UserList";
+import EditProfileByAdmin from "./pages/editProfileByAdmin/EditProfileByAdmin";
+
 axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser)
+  const isLoggedIn = useSelector(selectUser)
 
   useEffect(() => {
     async function loginStatus() {
@@ -41,43 +48,53 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
+        <Route
+          element={
+            <ProtectedRoute
+              isAuthenticated={isLoggedIn}
+            />
+          }
+        >
+          <Route
+            path="/dashboard"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              </Sidebar>
+            }
+          />
+
+          <Route
+            path="/add-product"
+            element={
+              <Sidebar>
+                <Layout>
+                  <AddProduct />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/product-detail/:id"
+            element={
+              <Sidebar>
+                <Layout>
+                  <ProductDetail />
+                </Layout>
+              </Sidebar>
+            }
+          />
+        </Route>
+
 
         <Route
-          path="/dashboard"
+          path="/edit-profile"
           element={
             <Sidebar>
               <Layout>
-                <Dashboard />
-              </Layout>
-            </Sidebar>
-          }
-        />
-        <Route
-          path="/add-product"
-          element={
-            <Sidebar>
-              <Layout>
-                <AddProduct />
-              </Layout>
-            </Sidebar>
-          }
-        />
-        <Route
-          path="/product-detail/:id"
-          element={
-            <Sidebar>
-              <Layout>
-                <ProductDetail />
-              </Layout>
-            </Sidebar>
-          }
-        />
-        <Route
-          path="/edit-product/:id"
-          element={
-            <Sidebar>
-              <Layout>
-                <EditProduct />
+                <EditProfile />
               </Layout>
             </Sidebar>
           }
@@ -93,15 +110,47 @@ function App() {
           }
         />
         <Route
-          path="/edit-profile"
           element={
-            <Sidebar>
-              <Layout>
-                <EditProfile />
-              </Layout>
-            </Sidebar>
+            <ProtectedRoute
+              isAuthenticated={isLoggedIn}
+              adminRoute={true}
+              isAdmin={user && user.bio === "admin" ? true : false}
+            />
           }
-        />
+        >
+
+          <Route
+            path="/edit-product/:id"
+            element={
+              <Sidebar>
+                <Layout>
+                  <EditProduct />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/edit-profile/:id"
+            element={
+              <Sidebar>
+                <Layout>
+                  <EditProfileByAdmin />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/user-list"
+            element={
+              <Sidebar>
+                <Layout>
+                  <UsersList />
+                </Layout>
+              </Sidebar>
+            }
+          />
+
+        </Route>
         <Route
           path="/contact-us"
           element={

@@ -178,7 +178,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.email = email;
     user.name = req.body.name || name;
     user.phone = req.body.phone || phone;
-    user.bio = req.body.bio || bio;
+    // user.bio = req.body.bio || bio;
     user.photo = req.body.photo || photo;
 
     const updatedUser = await user.save();
@@ -188,7 +188,7 @@ const updateUser = asyncHandler(async (req, res) => {
       email: updatedUser.email,
       photo: updatedUser.photo,
       phone: updatedUser.phone,
-      bio: updatedUser.bio,
+      // bio: updatedUser.bio,
     });
   } else {
     res.status(404);

@@ -245,7 +245,7 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isError = false;
-        state.product = action.payload;
+        state.product = action.payload.product;
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;

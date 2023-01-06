@@ -19,6 +19,8 @@ const ProductDetail = () => {
   const { product, isLoading, isError, message } = useSelector(
     (state) => state.product
   );
+
+
   const stockStatus = (quantity) => {
     if (quantity > 0) {
       return <span className="--color-success">In Stock</span>;
@@ -33,8 +35,8 @@ const ProductDetail = () => {
     if (isError) {
       console.log(message);
     }
-  }, [isLoggedIn, isError, message, dispatch]);
-  console.log(product);
+  }, [isLoggedIn, isError, message, dispatch, id]);
+
   return (
     <div className="product-detail">
       <h3 className="--mt">Product Detail</h3>
@@ -44,7 +46,7 @@ const ProductDetail = () => {
           <div className="detail">
             <Card cardClass="group">
               {product?.avatar ? (
-                <img src={product.avatar} alt="image" />
+                <img src={product.avatar} alt="avatar" />
               ) : (
                 <p>No image set for this product</p>
               )}

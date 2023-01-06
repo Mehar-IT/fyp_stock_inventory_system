@@ -157,3 +157,65 @@ export const changePassword = async (formData) => {
     toast.error(message);
   }
 };
+
+export const getAllUsers = async () => {
+  try {
+    const response = await axios.get(
+      `${BACKEND_URL}/api/users/all`
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    toast.error(message);
+  }
+};
+
+export const getUserDetail = async (id) => {
+  try {
+    const response = await axios.get(
+      `${BACKEND_URL}/api/users/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    toast.error(message);
+  }
+};
+
+export const updateUserByAdmin = async ({ id, formData }) => {
+  try {
+    const response = await axios.patch(
+      `${BACKEND_URL}/api/users/${id}`,
+      formData
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    toast.error(message);
+  }
+};
+
+export const deleteUserByAdmin = async (id) => {
+  console.log(id);
+  try {
+    const response = await axios.delete(
+      `${BACKEND_URL}/api/users/${id}`,
+    );
+    return response.data;
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    toast.error(message);
+  }
+};

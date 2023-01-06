@@ -10,6 +10,7 @@ const Dashboard = () => {
   useRedirectLoggedOutUser("/login");
   const dispatch = useDispatch();
 
+
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.product
@@ -19,6 +20,7 @@ const Dashboard = () => {
   );
 
   useEffect(() => {
+
     if (isLoggedIn === true) {
       user.bio === 'admin' ?
         dispatch(getAllProducts())

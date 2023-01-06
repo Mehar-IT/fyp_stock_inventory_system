@@ -1,4 +1,4 @@
-import { FaTh, FaRegChartBar, FaCommentAlt } from "react-icons/fa";
+import { FaTh, FaRegChartBar, FaCommentAlt, FaUsers } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 
 const menu = [
@@ -25,6 +25,11 @@ const menu = [
         path: "/edit-profile",
       },
     ],
+  },
+  {
+    title: "Users List",
+    icon: <FaUsers />,
+    path: "/user-list",
   },
   {
     title: "Report Bug",

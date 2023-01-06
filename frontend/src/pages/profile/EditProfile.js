@@ -128,7 +128,7 @@ const EditProfile = () => {
                 onChange={handleInputChange}
               />
             </p>
-            <p>
+            {user.bio === 'admin' && <p>
               <label>Bio:</label>
               <textarea
                 name="bio"
@@ -137,7 +137,7 @@ const EditProfile = () => {
                 cols="30"
                 rows="10"
               ></textarea>
-            </p>
+            </p>}
             <p>
               <label>Photo:</label>
               <FileBase

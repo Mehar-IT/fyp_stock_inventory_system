@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectName, SET_LOGIN } from "../../redux/features/auth/authSlice";
 import { logoutUser } from "../../services/authService";
+import { resetAllData } from "../../redux/store";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const Header = () => {
   const logout = async () => {
     localStorage.removeItem('persist:root')
     localStorage.removeItem('name')
+    dispatch(resetAllData())
     await logoutUser();
     dispatch(SET_LOGIN(false));
     navigate("/login");

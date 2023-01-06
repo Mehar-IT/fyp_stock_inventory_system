@@ -18,7 +18,7 @@ const { upload } = require("../utils/fileUpload");
 router.get("/all", protect, authorizeRole("admin"), getAllProducts);
 router
   .route("/:_id")
-  .get(protect, authorizeRole("admin"), getSingleProduct)
+  .get(protect, getSingleProduct)
   .patch(protect, authorizeRole("admin"), updateSingleProduct)
   .delete(protect, authorizeRole("admin"), deleteSingleProduct);
 // admin routes ended

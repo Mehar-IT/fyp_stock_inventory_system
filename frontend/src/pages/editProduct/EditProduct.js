@@ -33,16 +33,16 @@ const EditProduct = () => {
 
   useEffect(() => {
 
-    setProduct(productEdit?.product);
+    setProduct(productEdit);
 
     setImagePreview(
-      productEdit && productEdit.product.avatar
+      productEdit && productEdit.avatar
     );
     setAvatar(
-      productEdit && productEdit.product.avatar
+      productEdit && productEdit.avatar
     )
     setDescription(
-      productEdit && productEdit.product.description
+      productEdit && productEdit.description
     );
 
   }, [productEdit]);
