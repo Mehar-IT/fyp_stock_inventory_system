@@ -203,7 +203,6 @@ export const updateUserByAdmin = async ({ id, formData }) => {
 };
 
 export const deleteUserByAdmin = async (id) => {
-  console.log(id);
   try {
     const response = await axios.delete(
       `${BACKEND_URL}/api/users/${id}`,

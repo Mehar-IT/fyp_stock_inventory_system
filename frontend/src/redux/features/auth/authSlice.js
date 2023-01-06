@@ -7,6 +7,7 @@ const initialState = {
   name: name ? name : "",
   users: [],
   userDetail: {},
+  isDeleted: false,
 
   user: {
     name: "",
@@ -43,17 +44,21 @@ const authSlice = createSlice({
     },
     SET_USER_DETAIL(state, action) {
       state.userDetail = action.payload.user
-    }
+    },
+    SET_USER_DELETED(state, action) {
+      state.isDeleted = action.payload
+    },
   },
 });
 
-export const { SET_LOGIN, SET_NAME, SET_USER, SET_USERS, SET_USER_DETAIL } = authSlice.actions;
+export const { SET_LOGIN, SET_NAME, SET_USER, SET_USERS, SET_USER_DETAIL, SET_USER_DELETED } = authSlice.actions;
 
 export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
 export const selectName = (state) => state.auth.name;
 export const selectUser = (state) => state.auth.user;
 export const selectUsers = (state) => state.auth.users;
 export const selectUserDetail = (state) => state.auth.userDetail;
+export const selectUserDeleted = (state) => state.auth.isDeleted;
 
 
 export default authSlice.reducer;

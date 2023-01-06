@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import "./userList.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 // import { useAlert } from "react-alert";
 // import { Button } from "@material-ui/core";
 // import MetaData from "../layout/MetaData";
@@ -10,9 +11,9 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 // import EditIcon from "@mui/icons-material/Edit";
 // import DeleteIcon from "@mui/icons-material/Delete";
 // import SideBar from "./Sidebar";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
-import { SET_USERS, selectUsers } from "../../redux/features/auth/authSlice";
+import { SET_USERS, selectUsers, SET_USER_DELETED, selectUserDeleted } from "../../redux/features/auth/authSlice";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { getAllUsers, deleteUserByAdmin } from "../../services/authService";
 
@@ -22,8 +23,9 @@ import { getAllUsers, deleteUserByAdmin } from "../../services/authService";
 const UsersList = () => {
     const dispatch = useDispatch();
     const users = useSelector(selectUsers);
-    // const navigate = useNavigate();
-
+    const isDeleted = useSelector(selectUserDeleted);
+    const navigate = useNavigate();
+    //    const isDeleted=false;
     // const alert = useAlert();
 
     // const { error, users } = useSelector((state) => state.auth);
@@ -42,13 +44,16 @@ const UsersList = () => {
         const getuser = async () => {
 
             const data = await getAllUsers()
-
-
             dispatch(SET_USERS(data));
             // return data
         }
         getuser()
-    }, [dispatch, users])
+        if (isDeleted) {
+            toast.success('user is deleted')
+            dispatch(SET_USER_DELETED(false))
+        }
+    }, [dispatch, navigate, isDeleted])
+
     // useEffect(() => {
     //     if (error) {
     //         // alert.error(error);
@@ -78,7 +83,12 @@ const UsersList = () => {
             buttons: [
                 {
                     label: "Delete",
-                    onClick: () => deleteUserByAdmin(id),
+                    onClick: async () => {
+                        await deleteUserByAdmin(id)
+                        dispatch(SET_USER_DELETED(true))
+
+                        // isDeleted=true
+                    },
                 },
                 {
                     label: "Cancel",
@@ -153,9 +163,9 @@ const UsersList = () => {
         users.forEach((item) => {
             rows.push({
                 id: item._id,
-                bio: item.bio,
                 email: item.email,
                 name: item.name,
+                bio: item.bio,
             });
         });
 
@@ -168,6 +178,7 @@ const UsersList = () => {
                     <h1 id="productListHeading">ALL USERS</h1>
 
                     <DataGrid
+
                         rows={rows}
                         columns={columns}
                         pageSize={10}
