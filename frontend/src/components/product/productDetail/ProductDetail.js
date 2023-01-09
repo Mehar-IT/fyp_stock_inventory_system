@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useRedirectLoggedOutUser from "../../../customHook/useRedirectLoggedOutUser";
@@ -9,11 +9,15 @@ import { SpinnerImg } from "../../loader/Loader";
 import "./ProductDetail.scss";
 import DOMPurify from "dompurify";
 import moment from "moment";
+import Invoice from '../../../pages/invoice/Invoice';
+import ReactToPrint from 'react-to-print';
+
 const ProductDetail = () => {
+  const componentRef = useRef();
   useRedirectLoggedOutUser("/login");
   const dispatch = useDispatch();
-
   const { id } = useParams();
+
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const { product, isLoading, isError, message } = useSelector(
@@ -79,7 +83,21 @@ const ProductDetail = () => {
                 __html: DOMPurify.sanitize(product.description),
               }}
             ></div>
+
             <hr />
+
+            <div>
+              <ReactToPrint
+                trigger={() => <button className="invoice">Print Invoice</button>}
+                content={() => componentRef.current}
+                debug={true}
+              />
+              <div style={{ display: 'none' }}>
+                {product && <Invoice ref={componentRef} product={product} />}
+              </div>
+            </div>
+
+
             <b className="--color-dark">
               {" "}
               Created on: {moment(product.createdAt).fromNow()}

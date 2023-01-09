@@ -46,6 +46,10 @@ const productSchema = mongoose.Schema(
       type: String,
       //default:"ahsanjawed"
     },
+    status: {
+      type: String,
+      default: "processing"
+    },
   },
   {
     timestamps: true,

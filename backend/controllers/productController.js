@@ -104,8 +104,6 @@ const updateProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
 
-
-
   const product = await Product.findById(id);
 
   // if product doesnt exist
@@ -193,7 +191,7 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error(`invalid ID ${_id}`);
   }
-  const { name, category, quantity, price, description } = req.body;
+  const { name, category, quantity, price, description, status } = req.body;
 
 
   const newUpdateData = {
@@ -202,6 +200,7 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
     quantity,
     price,
     description,
+    status
   };
 
 

@@ -23,7 +23,7 @@ router
   .delete(protect, authorizeRole("superAdmin"), deleteSingleProduct);
 // superAdmin routes ended
 router.post("/", protect, upload.single("image"), authorizeRole("admin", "superAdmin"), createProduct);
-router.patch("/:id", protect, upload.single("image"), authorizeRole("admin", "superAdmin"), updateProduct);
+// router.patch("/:id", protect, upload.single("image"), authorizeRole("admin", "superAdmin"), updateProduct);
 router.get("/", protect, authorizeRole("admin", "superAdmin"), getProducts);
 router.get("/:id", protect, authorizeRole("admin", "superAdmin"), getProduct);
 // router.delete("/:id", protect, authorizeRole("superAdmin"), deleteProduct);

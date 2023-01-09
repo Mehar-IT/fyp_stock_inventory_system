@@ -51,6 +51,8 @@ const EditProduct = () => {
 
 
     const { name, value } = e.target;
+    console.log(name, value);
+
     setProduct({ ...product, [name]: value });
   };
 
@@ -78,7 +80,8 @@ const EditProduct = () => {
       "price": product?.price,
       "quantity": product?.quantit,
       "description": description,
-      "image": avatar
+      "image": avatar,
+      "status": product?.status
     }
 
 

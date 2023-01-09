@@ -110,13 +110,15 @@ const ProductList = ({ products, isLoading }) => {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Value</th>
+                  <th>Status</th>
+                  {/* <th>Invoice</th> */}
                   <th>Action</th>
                 </tr>
               </thead>
 
               <tbody>
                 {currentItems.map((product, index) => {
-                  const { _id, name, category, price, quantity } =
+                  const { _id, name, category, price, quantity, status } =
                     product;
 
 
@@ -130,10 +132,17 @@ const ProductList = ({ products, isLoading }) => {
                         {price}
                       </td>
                       <td>{quantity}</td>
+
+                      {/* <td style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>
+                        <Link to={`/product-invoice/${_id}`}>
+                          invoice
+                        </Link>
+                      </td> */}
                       <td>
                         {"$"}
                         {price * quantity}
                       </td>
+                      <td>{status}</td>
                       <td className="icons">
                         <span>
                           <Link to={`/product-detail/${_id}`}>
