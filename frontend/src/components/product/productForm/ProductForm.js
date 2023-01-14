@@ -4,8 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import Card from "../../card/Card";
 import FileBase from "react-file-base64";
 import "./ProductForm.scss";
-import { useSelector } from 'react-redux';
-import { selectUser } from '../../../redux/features/auth/authSlice';
+// import { useSelector } from "react-redux";
+// import { selectUser } from "../../../redux/features/auth/authSlice";
 
 const ProductForm = ({
   product,
@@ -19,13 +19,10 @@ const ProductForm = ({
   avatar,
   setAvatar,
 }) => {
-  const user = useSelector(selectUser);
-
   return (
     <div className="add-product">
       <Card cardClass={"card"}>
         <form encType="multipart/form-data" onSubmit={saveProduct}>
-
           <Card cardClass={"group"}>
             <label>Product Image</label>
             <code className="--color-dark">
@@ -82,7 +79,7 @@ const ProductForm = ({
             onChange={handleInputChange}
           />
           <label>Product Status:</label>
-          {user.bio === 'superAdmin' ? <select
+          {/* {user.bio === 'superAdmin' ? <select
             name="status"
             value={product?.status}
             onChange={handleInputChange}
@@ -90,13 +87,11 @@ const ProductForm = ({
             <option value="processing">processing</option>
             <option value="accecpted">accecpted</option>
             <option value="rejected">rejected</option>
-          </select> : null}
-
+          </select> : null} */}
 
           <label>Product Description:</label>
           <ReactQuill
             theme="snow"
-
             value={description}
             onChange={setDescription}
             modules={ProductForm.modules}

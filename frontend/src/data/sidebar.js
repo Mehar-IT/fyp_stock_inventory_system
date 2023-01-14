@@ -1,4 +1,10 @@
-import { FaTh, FaRegChartBar, FaCommentAlt, FaUsers } from "react-icons/fa";
+import {
+  FaTh,
+  FaRegChartBar,
+  FaCommentAlt,
+  FaUsers,
+  FaOpencart,
+} from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 
 const menu = [
@@ -6,6 +12,20 @@ const menu = [
     title: "Dashboard",
     icon: <FaTh />,
     path: "/dashboard",
+  },
+  {
+    title: "Orders",
+    icon: <FaOpencart />,
+    childrens: [
+      {
+        title: "Orders",
+        path: "/orders",
+      },
+      {
+        title: "Submit Order",
+        path: "/add-order",
+      },
+    ],
   },
   {
     title: "Add Product",
@@ -32,7 +52,7 @@ const menu = [
     path: "/user-list",
   },
   {
-    title: "Report Bug",
+    title: "Feedback",
     icon: <FaCommentAlt />,
     path: "/contact-us",
   },

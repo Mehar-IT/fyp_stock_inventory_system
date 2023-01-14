@@ -19,37 +19,25 @@ const EditProduct = () => {
 
   const productEdit = useSelector(selectProduct);
 
-
-
   const [product, setProduct] = useState("");
   const [productImage, setProductImage] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const [description, setDescription] = useState("");
-  const [avatar, setAvatar] = useState("")
+  const [avatar, setAvatar] = useState("");
 
   useEffect(() => {
     dispatch(getProduct(id));
   }, [dispatch, id]);
 
   useEffect(() => {
-
     setProduct(productEdit);
 
-    setImagePreview(
-      productEdit && productEdit.avatar
-    );
-    setAvatar(
-      productEdit && productEdit.avatar
-    )
-    setDescription(
-      productEdit && productEdit.description
-    );
-
+    setImagePreview(productEdit && productEdit.avatar);
+    setAvatar(productEdit && productEdit.avatar);
+    setDescription(productEdit && productEdit.description);
   }, [productEdit]);
 
   const handleInputChange = (e) => {
-
-
     const { name, value } = e.target;
     console.log(name, value);
 
@@ -75,25 +63,25 @@ const EditProduct = () => {
     //   formData.append("image", avatar);
     // }
     const formData = {
-      "name": product?.name,
-      "category": product?.category,
-      "price": product?.price,
-      "quantity": product?.quantit,
-      "description": description,
-      "image": avatar,
-      "status": product?.status
-    }
-
+      name: product?.name,
+      category: product?.category,
+      price: product?.price,
+      quantity: product?.quantit,
+      description: description,
+      image: avatar,
+      // "status": product?.status
+    };
 
     dispatch(updateProduct({ id, formData }));
     dispatch(getAllProducts());
     navigate("/dashboard");
   };
 
-
   return (
     <div>
-      {!product ? <Loader /> :
+      {!product ? (
+        <Loader />
+      ) : (
         <>
           <h3 className="--mt">Edit Product</h3>
           <ProductForm
@@ -108,7 +96,8 @@ const EditProduct = () => {
             avatar={avatar}
             setAvatar={setAvatar}
           />
-        </>}
+        </>
+      )}
     </div>
   );
 };

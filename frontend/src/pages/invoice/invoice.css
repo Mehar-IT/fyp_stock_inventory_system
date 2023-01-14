@@ -21,12 +21,6 @@ p {
   width: 90%;
   margin-right: auto;
   margin-left: auto;
-  background-image: url("https://usindh.edu.pk/wp-content/uploads/2018/10/logo-header.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  /* z-index: 100;
-  opacity: 0.6; */
-  background-size: 400px 400px;
 }
 .brand-section {
   background-color: #0d1033;

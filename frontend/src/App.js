@@ -20,17 +20,20 @@ import EditProduct from "./pages/editProduct/EditProduct";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
 import Contact from "./pages/contact/Contact";
-import ProtectedRoute from './components/Route/ProtectedRoute'
-import { selectUser } from './redux/features/auth/authSlice'
+import ProtectedRoute from "./components/Route/ProtectedRoute";
+import { selectUser } from "./redux/features/auth/authSlice";
 import UsersList from "./components/userList/UserList";
 import EditProfileByAdmin from "./pages/editProfileByAdmin/EditProfileByAdmin";
-
+import Orders from "./pages/orders/Orders";
+import UpdateOrder from "./pages/orders/UpdateOrder";
+import CreateOrder from "./pages/orders/CreateOrder";
+import OrderDetail from "./pages/orders/OrderDetail";
 
 axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser)
-  const isLoggedIn = useSelector(selectUser)
+  const user = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectUser);
 
   useEffect(() => {
     async function loginStatus() {
@@ -39,7 +42,7 @@ function App() {
     }
     loginStatus();
   }, [dispatch]);
-  const roles = ['admin', 'superAdmin']
+  const roles = ["admin", "superAdmin"];
   return (
     <BrowserRouter>
       <ToastContainer />
@@ -59,7 +62,58 @@ function App() {
             />
           }
         >
+          <Route
+            path="/orders"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Orders />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/order-detail/:id"
+            element={
+              <Sidebar>
+                <Layout>
+                  <OrderDetail />
+                </Layout>
+              </Sidebar>
+            }
+          />
 
+          <Route
+            path="/profile"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/contact-us"
+            element={
+              <Sidebar>
+                <Layout>
+                  <Contact />
+                </Layout>
+              </Sidebar>
+            }
+          />
+        </Route>
+
+        <Route
+          element={
+            <ProtectedRoute
+              isAuthenticated={isLoggedIn}
+              superAdmin={true}
+              isAdmin={user && user.bio === "superAdmin" ? true : false}
+            />
+          }
+        >
           <Route
             path="/dashboard"
             element={
@@ -70,7 +124,6 @@ function App() {
               </Sidebar>
             }
           />
-
           <Route
             path="/add-product"
             element={
@@ -103,40 +156,6 @@ function App() {
             }
           />
           <Route
-            path="/profile"
-            element={
-              <Sidebar>
-                <Layout>
-                  <Profile />
-                </Layout>
-              </Sidebar>
-            }
-          />
-          <Route
-            path="/contact-us"
-            element={
-              <Sidebar>
-                <Layout>
-                  <Contact />
-                </Layout>
-              </Sidebar>
-            }
-          />
-        </Route>
-
-
-
-        <Route
-          element={
-            <ProtectedRoute
-              isAuthenticated={isLoggedIn}
-              superAdmin={true}
-              isAdmin={user && user.bio === "superAdmin" ? true : false}
-            />
-          }
-        >
-
-          <Route
             path="/edit-product/:id"
             element={
               <Sidebar>
@@ -157,6 +176,26 @@ function App() {
             }
           />
           <Route
+            path="/edit-order/:id"
+            element={
+              <Sidebar>
+                <Layout>
+                  <UpdateOrder />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/add-order"
+            element={
+              <Sidebar>
+                <Layout>
+                  <CreateOrder />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
             path="/user-list"
             element={
               <Sidebar>
@@ -166,9 +205,7 @@ function App() {
               </Sidebar>
             }
           />
-
         </Route>
-
       </Routes>
     </BrowserRouter>
   );

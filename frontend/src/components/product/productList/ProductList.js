@@ -34,7 +34,6 @@ const ProductList = ({ products, isLoading }) => {
   };
 
   const delProduct = async (id) => {
-
     dispatch(deleteProduct(id));
     dispatch(getAllProducts());
   };
@@ -110,7 +109,7 @@ const ProductList = ({ products, isLoading }) => {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Value</th>
-                  <th>Status</th>
+                  {/* <th>Status</th> */}
                   {/* <th>Invoice</th> */}
                   <th>Action</th>
                 </tr>
@@ -118,9 +117,7 @@ const ProductList = ({ products, isLoading }) => {
 
               <tbody>
                 {currentItems.map((product, index) => {
-                  const { _id, name, category, price, quantity, status } =
-                    product;
-
+                  const { _id, name, category, price, quantity } = product;
 
                   return (
                     <tr key={_id}>
@@ -142,7 +139,7 @@ const ProductList = ({ products, isLoading }) => {
                         {"$"}
                         {price * quantity}
                       </td>
-                      <td>{status}</td>
+                      {/* <td>{status}</td> */}
                       <td className="icons">
                         <span>
                           <Link to={`/product-detail/${_id}`}>

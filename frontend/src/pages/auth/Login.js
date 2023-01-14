@@ -53,7 +53,7 @@ const Login = () => {
       } else {
         toast.info('sorry you are not allowed')
       }
-      navigate("/dashboard");
+      navigate("/orders");
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
