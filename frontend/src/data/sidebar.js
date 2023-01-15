@@ -5,7 +5,7 @@ import {
   FaUsers,
   FaOpencart,
 } from "react-icons/fa";
-import { BiImageAdd } from "react-icons/bi";
+import { AiOutlineStock } from "react-icons/ai";
 
 const menu = [
   {
@@ -13,6 +13,7 @@ const menu = [
     icon: <FaTh />,
     path: "/dashboard",
   },
+
   {
     title: "Orders",
     icon: <FaOpencart />,
@@ -28,10 +29,20 @@ const menu = [
     ],
   },
   {
-    title: "Add Stock",
-    icon: <BiImageAdd />,
-    path: "/add-product",
+    title: "Stocks",
+    icon: <AiOutlineStock />,
+    childrens: [
+      {
+        title: "Avalaible Stock",
+        path: "/stocks",
+      },
+      {
+        title: "Add Stock",
+        path: "/add-product",
+      },
+    ],
   },
+
   {
     title: "Account",
     icon: <FaRegChartBar />,

@@ -1,0 +1,41 @@
+.dashboardSummary > div {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboardSummaryBox2 > a {
+  text-align: center;
+  background-color: rgb(255, 233, 174);
+  text-decoration: none;
+  padding: 1.5rem;
+  width: 17vmax;
+  height: 17vmax;
+  margin: 2rem;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.dashboardSummaryBox2 > a > p {
+  font: 300 3rem "Roboto";
+}
+
+.dashboardSummaryBox2 > a:first-child {
+  background-color: rgb(255, 110, 110);
+  color: rgb(255, 255, 255);
+}
+
+.dashboardSummaryBox2 > a {
+  padding: 0.5rem;
+  margin: 1rem;
+  font: 300 1.9rem "Roboto";
+}
+.doughnutChart {
+  width: 30vmax;
+  margin: auto;
+}
+canvas {
+  display: inline !important;
+  margin-top: 50px !important;
+}

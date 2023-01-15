@@ -42,6 +42,7 @@ export default function CreateOrder() {
 
           <input
             type="text"
+            required
             placeholder="Product name"
             name="name"
             value={product?.name}
@@ -50,6 +51,7 @@ export default function CreateOrder() {
 
           <label>Product Quantity:</label>
           <input
+            required
             type="number"
             placeholder="Product Quantity"
             name="quantity"
@@ -58,6 +60,7 @@ export default function CreateOrder() {
           />
           <label>Product Description:</label>
           <textarea
+            required
             style={{
               resize: "vertical",
               padding: "10px",

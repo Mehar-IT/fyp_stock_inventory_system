@@ -18,7 +18,7 @@ import {
 } from "../../../redux/features/product/productSlice";
 import { Link } from "react-router-dom";
 
-const ProductList = ({ products, isLoading }) => {
+const ProductList = ({ products, isLoading, dashboard = false }) => {
   const [search, setSearch] = useState("");
   const filteredProducts = useSelector(selectFilteredPoducts);
   const { user } = useSelector((state) => state.auth);
@@ -109,9 +109,7 @@ const ProductList = ({ products, isLoading }) => {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Value</th>
-                  {/* <th>Status</th> */}
-                  {/* <th>Invoice</th> */}
-                  <th>Action</th>
+                  {dashboard && <th>Action</th>}
                 </tr>
               </thead>
 
@@ -130,41 +128,37 @@ const ProductList = ({ products, isLoading }) => {
                       </td>
                       <td>{quantity}</td>
 
-                      {/* <td style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>
-                        <Link to={`/product-invoice/${_id}`}>
-                          invoice
-                        </Link>
-                      </td> */}
                       <td>
                         {"$"}
                         {price * quantity}
                       </td>
-                      {/* <td>{status}</td> */}
-                      <td className="icons">
-                        <span>
-                          <Link to={`/product-detail/${_id}`}>
-                            <AiOutlineEye size={25} color={"purple"} />
-                          </Link>
-                        </span>
-                        {user.bio === "superAdmin" ? (
-                          <>
-                            <span>
-                              <Link to={`/edit-product/${_id}`}>
-                                <FaEdit size={20} color={"green"} />
-                              </Link>
-                            </span>
-                            <span>
-                              <FaTrashAlt
-                                size={20}
-                                color={"red"}
-                                onClick={() => confirmDelete(_id)}
-                              />
-                            </span>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </td>
+                      {dashboard && (
+                        <td className="icons">
+                          <span>
+                            <Link to={`/product-detail/${_id}`}>
+                              <AiOutlineEye size={25} color={"purple"} />
+                            </Link>
+                          </span>
+                          {user.bio === "superAdmin" ? (
+                            <>
+                              <span>
+                                <Link to={`/edit-product/${_id}`}>
+                                  <FaEdit size={20} color={"green"} />
+                                </Link>
+                              </span>
+                              <span>
+                                <FaTrashAlt
+                                  size={20}
+                                  color={"red"}
+                                  onClick={() => confirmDelete(_id)}
+                                />
+                              </span>
+                            </>
+                          ) : (
+                            ""
+                          )}
+                        </td>
+                      )}
                     </tr>
                   );
                 })}
