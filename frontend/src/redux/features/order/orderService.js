@@ -1,5 +1,5 @@
 import axios from "axios";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
   getOrdersLoad,
   getOrdersSuccess,
@@ -70,12 +70,10 @@ export const getOrderDetail = async (dispatch, id) => {
   }
 };
 export const orderUpdate = async (dispatch, id, data) => {
-  console.log(data);
-
   try {
     dispatch(orderUpdateLoad());
     const response = await axios.put(`${BACKEND_URL}/admin/order/${id}`, data);
-
+    toast.success("order is updated");
     dispatch(orderUpdateSuccess(response.data.success));
   } catch (error) {
     dispatch(orderUpdateFailed(error.response.data.message));

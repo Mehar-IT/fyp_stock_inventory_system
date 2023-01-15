@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function ProtectedRoute({
   isAuthenticated,
@@ -7,7 +8,7 @@ export default function ProtectedRoute({
   superAdmin,
   isAdmin,
   redirect = "/login",
-  redirectAdmin = "/dashboard",
+  redirectAdmin = "/orders",
 }) {
   if (!isAuthenticated) {
     return <Navigate to={redirect} />;
@@ -16,6 +17,7 @@ export default function ProtectedRoute({
     return <Navigate to={redirect} />;
   }
   if (superAdmin && !isAdmin) {
+    toast.info("you have no rights to access this resource");
     return <Navigate to={redirectAdmin} />;
   }
   return children ? children : <Outlet />;

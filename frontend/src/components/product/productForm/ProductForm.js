@@ -78,7 +78,6 @@ const ProductForm = ({
             value={product?.quantity}
             onChange={handleInputChange}
           />
-          <label>Product Status:</label>
           {/* {user.bio === 'superAdmin' ? <select
             name="status"
             value={product?.status}

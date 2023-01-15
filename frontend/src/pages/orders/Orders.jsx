@@ -8,11 +8,7 @@ import {
   deleteOrder,
   getAdminOrders,
 } from "../../redux/features/order/orderService";
-// import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
-// import { useAlert } from "react-alert";
-// import Typography from "@material-ui/core/Typography";
-// import { toast } from "react-toastify";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -21,8 +17,6 @@ import { AiOutlineEye } from "react-icons/ai";
 
 const Orders = () => {
   const dispatch = useDispatch();
-
-  // const alert = useAlert();
 
   const { loading, error, orders, isDeleted } = useSelector(
     (state) => state.orders
@@ -60,9 +54,17 @@ const Orders = () => {
       renderCell: ({ row }) => {
         return (
           <p
-            className={` badge ${
-              row.status === "accepted" ? "greenColor" : "redColor"
-            } `}
+            style={{
+              display: "inline",
+              fontSize: "17px",
+              borderRadius: "10px",
+              padding: "5px",
+              backgroundColor:
+                row.status === "rejected" || row.status === "processing"
+                  ? "#fc3838"
+                  : "#6ceb79",
+              color: "white",
+            }}
           >
             {row.status}
           </p>

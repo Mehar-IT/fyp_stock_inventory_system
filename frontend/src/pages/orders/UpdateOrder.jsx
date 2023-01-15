@@ -15,35 +15,27 @@ import {
   selectFilteredPoducts,
 } from "../../redux/features/product/filterSlice";
 import { getAllProducts } from "../../redux/features/product/productSlice";
-import { SpinnerImg } from "../../components/loader/Loader";
+import Loader, { SpinnerImg } from "../../components/loader/Loader";
 import { toast } from "react-toastify";
 import { clearError } from "../../redux/features/order/orderSlice";
 
 export default function UpdateOrder() {
-  const initialState = {
-    name: "",
-    product: "",
-    quantity: "",
-    orderStatus: "",
-  };
-
   const { orderDetail, loading, error, isUpdated } = useSelector(
     (state) => state.orders
   );
   const { products, isLoading } = useSelector((state) => state.product);
-  const [product, setProduct] = useState(initialState);
+  const [product, setProduct] = useState({});
   const { id } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!loading) {
-      setProduct({
-        name: orderDetail.name || "",
-        product: orderDetail.product || "",
-        quantity: orderDetail.quantity || "",
-        orderStatus: orderDetail.orderStatus || "",
-      });
-    }
+    setProduct({
+      name: orderDetail.name || "",
+      product: orderDetail.product || "",
+      quantity: orderDetail.quantity || "",
+      orderStatus: orderDetail.orderStatus || "",
+    });
+
     if (error) {
       toast.error(error);
       dispatch(clearError());
@@ -60,8 +52,8 @@ export default function UpdateOrder() {
   }, [dispatch, id, isUpdated]);
   const saveProduct = (e) => {
     e.preventDefault();
+
     orderUpdate(dispatch, id, product);
-    toast.success("order is updated");
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +96,9 @@ export default function UpdateOrder() {
   useEffect(() => {
     dispatch(FILTER_PRODUCTS({ products, search }));
   }, [products, search, dispatch]);
-
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className="add-product">
       <Card cardClass={"card"}>
@@ -112,7 +106,12 @@ export default function UpdateOrder() {
           <label>Product Name:</label>
 
           <input
-            disabled={orderDetail.orderStatus === "processing" ? false : true}
+            disabled={
+              product?.orderStatus !== "accepted" ||
+              orderDetail.orderStatus === "accepted"
+                ? true
+                : false
+            }
             type="text"
             placeholder="Product name"
             name="name"
@@ -122,7 +121,12 @@ export default function UpdateOrder() {
 
           <label>Product Quantity:</label>
           <input
-            disabled={orderDetail.orderStatus === "processing" ? false : true}
+            disabled={
+              product?.orderStatus !== "accepted" ||
+              orderDetail.orderStatus === "accepted"
+                ? true
+                : false
+            }
             type="number"
             placeholder="Product Quantity"
             name="quantity"
@@ -130,9 +134,35 @@ export default function UpdateOrder() {
             onChange={handleInputChange}
           />
 
-          <label>Product Status: {orderDetail.orderStatus}</label>
+          <label
+            style={{
+              border: "1px solid #777777",
+              borderRadius: "3px",
+              padding: "10px",
+              marginBottom: "5px",
+            }}
+          >
+            Product Status:{" "}
+            <span
+              style={{
+                display: "inline",
+                fontSize: "17px",
+                borderRadius: "10px",
+                padding: "5px",
+                backgroundColor:
+                  orderDetail.orderStatus === "rejected" ||
+                  orderDetail.orderStatus === "processing"
+                    ? "#fc3838"
+                    : "#6ceb79",
+                color: "white",
+              }}
+            >
+              {orderDetail.orderStatus}
+            </span>
+          </label>
 
           <select
+            required
             style={{
               display: `${
                 orderDetail.orderStatus === "dilivered" ||
@@ -167,7 +197,13 @@ export default function UpdateOrder() {
 
           <label>Product Category:</label>
           <input
-            disabled={orderDetail.orderStatus === "processing" ? false : true}
+            required
+            disabled={
+              product?.orderStatus !== "accepted" ||
+              orderDetail.orderStatus === "accepted"
+                ? true
+                : false
+            }
             type="text"
             placeholder="Product Category"
             name="product"
@@ -176,7 +212,7 @@ export default function UpdateOrder() {
           />
           <div className="--my">
             <button type="submit" className="--btn --btn-primary">
-              Update Order
+              Order Approval
             </button>
           </div>
         </form>
@@ -227,7 +263,7 @@ export default function UpdateOrder() {
                           }}
                           onClick={() => {
                             navigator.clipboard.writeText(_id);
-                            alert(`Id ${_id} copied`);
+                            toast.info(`Id ${_id} is Copied`);
                           }}
                         >
                           {_id}

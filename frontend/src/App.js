@@ -103,7 +103,27 @@ function App() {
               </Sidebar>
             }
           />
+          <Route
+            path="/edit-profile"
+            element={
+              <Sidebar>
+                <Layout>
+                  <EditProfile />
+                </Layout>
+              </Sidebar>
+            }
+          />
         </Route>
+        <Route
+          path="/add-order"
+          element={
+            <Sidebar>
+              <Layout>
+                <CreateOrder />
+              </Layout>
+            </Sidebar>
+          }
+        />
 
         <Route
           element={
@@ -146,16 +166,6 @@ function App() {
           />
 
           <Route
-            path="/edit-profile"
-            element={
-              <Sidebar>
-                <Layout>
-                  <EditProfile />
-                </Layout>
-              </Sidebar>
-            }
-          />
-          <Route
             path="/edit-product/:id"
             element={
               <Sidebar>
@@ -185,16 +195,7 @@ function App() {
               </Sidebar>
             }
           />
-          <Route
-            path="/add-order"
-            element={
-              <Sidebar>
-                <Layout>
-                  <CreateOrder />
-                </Layout>
-              </Sidebar>
-            }
-          />
+
           <Route
             path="/user-list"
             element={

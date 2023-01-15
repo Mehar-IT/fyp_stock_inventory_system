@@ -27,6 +27,7 @@ const filterSlice = createSlice({
     },
     orderDeleteLoad: (state) => {
       state.loading = true;
+      state.isDeleted = false;
     },
     orderDeleteSuccess: (state, action) => {
       state.loading = false;
@@ -49,6 +50,7 @@ const filterSlice = createSlice({
     },
     orderUpdateLoad: (state) => {
       state.loading = true;
+      state.isUpdated = false;
     },
     orderUpdateSuccess: (state, action) => {
       state.loading = false;

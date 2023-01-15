@@ -14,14 +14,17 @@ const Contact = () => {
     subject,
     message,
   };
+  const [loading, setloading] = useState(false);
 
   const sendEmail = async (e) => {
     e.preventDefault();
     try {
+      setloading(true);
       const response = await axios.post(`${BACKEND_URL}/api/contactus`, data);
       setSubject("");
       setMessage("");
       toast.success(response.data.message);
+      setloading(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -48,10 +51,17 @@ const Contact = () => {
               rows="10"
               name="message"
               required
+              placeholder="Enter Message here"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             ></textarea>
-            <button className="--btn --btn-primary">Send Message</button>
+            <button
+              disabled={loading}
+              style={{ cursor: `${loading ? "not-allowed" : "pointer"}` }}
+              className="--btn --btn-primary"
+            >
+              Send Message
+            </button>
           </Card>
         </form>
 
@@ -63,19 +73,19 @@ const Contact = () => {
             <div className="icons">
               <span>
                 <FaPhoneAlt />
-                <p>070123123123</p>
+                <p>022-9213159</p>
               </span>
               <span>
                 <FaEnvelope />
-                <p>Support@invent.com</p>
+                <p>info@usindh.edu.pk</p>
               </span>
               <span>
                 <GoLocation />
-                <p>Abuja, Nigeria</p>
+                <p>University of Sindh</p>
               </span>
               <span>
                 <FaTwitter />
-                <p>@ZinoTrust</p>
+                <p>@usindh</p>
               </span>
             </div>
           </Card>

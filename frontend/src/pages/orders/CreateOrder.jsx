@@ -63,11 +63,11 @@ export default function CreateOrder() {
               padding: "10px",
               fontSize: "15px",
               outline: "none",
+              width: "100%",
             }}
             placeholder="Product Description"
             name="description"
             rows="20"
-            cols="60"
             value={product?.description}
             onChange={handleInputChange}
           />

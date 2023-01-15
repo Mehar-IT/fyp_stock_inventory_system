@@ -72,7 +72,10 @@ const OrderInvoice = React.forwardRef((props, ref) => {
             borderRadius: "10px",
             padding: "5px",
             backgroundColor:
-              order.orderStatus !== "processing" ? "#6ceb79" : "#fc3838",
+              order.orderStatus === "rejected" ||
+              order.orderStatus === "processing"
+                ? "#fc3838"
+                : "#6ceb79",
             color: "white",
           }}
         >

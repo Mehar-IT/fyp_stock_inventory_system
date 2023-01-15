@@ -28,7 +28,7 @@ const menu = [
     ],
   },
   {
-    title: "Add Product",
+    title: "Add Stock",
     icon: <BiImageAdd />,
     path: "/add-product",
   },
