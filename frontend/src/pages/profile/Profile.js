@@ -16,18 +16,14 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-
     setIsLoading(true);
     async function getUserData() {
       const data = await getUser();
-
 
       setProfile(data);
       setIsLoading(false);
       dispatch(SET_USER(data));
       dispatch(SET_NAME(data.name));
-
-
     }
     getUserData();
   }, [dispatch]);
@@ -53,8 +49,26 @@ const Profile = () => {
               <p>
                 <b>Phone : </b> {profile?.phone}
               </p>
-              <p>
+              <p style={{ borderBottom: "1px solid #ccc" }}>
                 <b>Bio : </b> {profile?.bio}
+              </p>
+              <p
+                style={{
+                  borderTop: "0px ",
+                  margin: "10px 0",
+                }}
+              >
+                <b>Dept : </b>
+                <span
+                  style={{
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    padding: "5px",
+                    borderRadius: "5px",
+                  }}
+                >
+                  {profile?.dept}
+                </span>
               </p>
               <div>
                 <Link to="/edit-profile">

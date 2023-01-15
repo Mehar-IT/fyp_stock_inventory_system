@@ -60,14 +60,28 @@ const UsersList = () => {
     {
       field: "email",
       headerName: "Email",
-      minWidth: 200,
-      flex: 1,
+      minWidth: 100,
+      flex: 0.5,
     },
     {
-      field: "name",
-      headerName: "Name",
-      minWidth: 150,
-      flex: 0.5,
+      field: "dept",
+      headerName: "Department",
+      minWidth: 250,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return (
+          <p
+            style={{
+              color: "white",
+              borderRadius: "8px",
+              backgroundColor: "#03a5fc",
+              padding: "5px",
+            }}
+          >
+            {row.dept}
+          </p>
+        );
+      },
     },
 
     {
@@ -79,9 +93,12 @@ const UsersList = () => {
       renderCell: ({ row }) => {
         return (
           <p
-            className={` badge ${
-              row.bio === "admin" ? "greenColor" : "redColor"
-            } `}
+            style={{
+              borderRadius: "8px",
+              color: "#353535",
+              backgroundColor: row.bio === "superAdmin" ? "#6ceb79" : "#ff6e6e",
+              padding: "5px",
+            }}
           >
             {row.bio}
           </p>
@@ -122,7 +139,7 @@ const UsersList = () => {
       rows.push({
         id: item._id,
         email: item.email,
-        name: item.name,
+        dept: item.dept,
         bio: item.bio,
       });
     });

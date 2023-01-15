@@ -49,7 +49,7 @@ const AddProduct = () => {
     formData.append("avatar", avatar);
     dispatch(createProduct(formData));
 
-    navigate("/dashboard");
+    navigate("/stocks");
   };
 
   return (

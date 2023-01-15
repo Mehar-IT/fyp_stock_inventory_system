@@ -57,6 +57,9 @@ export default function OrderDetail() {
               <p>
                 <b>email : </b> {orderDetail?.user?.email}
               </p>
+              <p>
+                <b>Department : </b> {orderDetail?.user?.dept}
+              </p>
               <div>
                 <ReactToPrint
                   trigger={() => (

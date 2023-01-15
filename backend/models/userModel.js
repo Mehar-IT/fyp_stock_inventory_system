@@ -28,9 +28,13 @@ const userSchema = mongoose.Schema(
       required: [true, "Please add a photo"],
       default: "https://i.ibb.co/4pDNDk1/avatar.png",
     },
+    dept: {
+      type: String,
+      required: [true, "Please add your department "],
+    },
     phone: {
       type: String,
-      default: "+234",
+      default: "+92",
     },
     bio: {
       type: String,

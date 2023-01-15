@@ -37,7 +37,7 @@ const OrderInvoice = React.forwardRef((props, ref) => {
           </div>
           <div className="col-6">
             <p className="sub-heading">Full Name:{user?.name}</p>
-            <p className="sub-heading">Address:</p>
+            <p className="sub-heading">Department:{user?.dept}</p>
             <p className="sub-heading">Phone Number:</p>
           </div>
         </div>

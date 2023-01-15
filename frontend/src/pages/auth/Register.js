@@ -4,10 +4,9 @@ import { TiUserAddOutline } from "react-icons/ti";
 import Card from "../../components/card/Card";
 import { toast } from "react-toastify";
 import { registerUser, validateEmail } from "../../services/authService";
-// import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-// import { SET_LOGIN, SET_NAME, } from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
+import { departments } from "../../data/sidebar";
 
 const initialState = {
   name: "",
@@ -21,7 +20,7 @@ const Register = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setformData] = useState(initialState);
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, dept } = formData;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +30,7 @@ const Register = () => {
   const register = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !dept) {
       return toast.error("All fields are required");
     }
     if (password.length < 6) {
@@ -48,15 +47,12 @@ const Register = () => {
       name,
       email,
       password,
+      dept,
     };
     setIsLoading(true);
     try {
       const data = await registerUser(userData);
-      // console.log(data);
-      toast.info(data.message)
-      // dispatch(SET_LOGIN(true));
-      // dispatch(SET_NAME(data.name));
-      // dispatch(SET_LOGIN_MESSAGE(data.message));
+      toast.info(data.message);
       navigate("/login");
       setIsLoading(false);
     } catch (error) {
@@ -107,6 +103,19 @@ const Register = () => {
               value={password2}
               onChange={handleInputChange}
             />
+            <select
+              required
+              name="dept"
+              value={dept}
+              onChange={handleInputChange}
+            >
+              <option>Select Deartment</option>
+              {departments.map((item, index) => (
+                <option key={index} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
             <button type="submit" className="--btn --btn-primary --btn-block">
               Register
             </button>

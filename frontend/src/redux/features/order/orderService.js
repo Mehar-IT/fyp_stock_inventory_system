@@ -30,11 +30,6 @@ export const getOrders = async (dispatch) => {
     dispatch(getOrdersSuccess(response.data.orders));
   } catch (error) {
     dispatch(getOrdersFailed(error.data.message));
-    // const message =
-    //     (error.response && error.response.data && error.response.data.message) ||
-    //     error.message ||
-    //     error.toString();
-    // toast.error(message);
   }
 };
 export const getAdminOrders = async (dispatch) => {

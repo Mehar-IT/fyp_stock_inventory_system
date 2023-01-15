@@ -1,9 +1,6 @@
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
-// const ErrorHandler = require("../utils/errorhandlers");
-// const asyncErrorHandler = require("../middleware/asyncErrorHandler");
 const asyncHandler = require("express-async-handler");
-const errorHandler = require("../middleWare/errorMiddleware");
 const mongoose = require("mongoose");
 
 exports.newOrder = asyncHandler(async (req, res) => {
@@ -29,7 +26,7 @@ exports.newOrder = asyncHandler(async (req, res) => {
 exports.getSingleOrder = asyncHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id).populate(
     "user",
-    "name email"
+    "name email dept"
   );
 
   if (!order) {
@@ -45,7 +42,10 @@ exports.getSingleOrder = asyncHandler(async (req, res, next) => {
 });
 
 exports.myOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({ user: req.user._id });
+  const orders = await Order.find({ user: req.user._id }).populate(
+    "user",
+    "name email dept"
+  );
 
   res.status(200).json({
     success: true,
@@ -54,17 +54,10 @@ exports.myOrders = asyncHandler(async (req, res) => {
 });
 
 exports.getAllOrder = asyncHandler(async (req, res) => {
-  const orders = await Order.find();
-
-  // let totalAmount = 0;
-
-  // orders.forEach((order) => {
-  //   totalAmount += order.totalPrice;
-  // });
+  const orders = await Order.find().populate("user", "name email dept");
 
   res.status(200).json({
     success: true,
-    // totalAmount,
     orders,
   });
 });
@@ -81,12 +74,6 @@ exports.updateOrderStatus = asyncHandler(async (req, res, next) => {
     res.status(400);
     throw new Error("you have already deliverd this product");
   }
-  // if (order.orderStatus === "accepted") {
-  //   console.log("ok");
-
-  //   res.status(400);
-  //   throw new Error("this order is already accepted");
-  // }
 
   if (req.body.orderStatus === "accepted") {
     const { product, quantity } = req.body;
@@ -126,7 +113,6 @@ exports.deleteOrder = asyncHandler(async (req, res, next) => {
   if (!order) {
     res.status(404);
     throw new Error("order not found with this id");
-    // return next(new ErrorHandler("order not found with this id", 404));
   }
   await order.remove();
 

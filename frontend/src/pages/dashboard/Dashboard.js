@@ -22,7 +22,6 @@ const Dashboard = () => {
     const getuser = async () => {
       const data = await getAllUsers();
       dispatch(SET_USERS(data));
-      // return data
     };
 
     if (isLoggedIn === true) {

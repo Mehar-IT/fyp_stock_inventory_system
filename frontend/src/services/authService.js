@@ -35,11 +35,9 @@ export const loginUser = async (userData) => {
     const response = await axios.post(
       `${BACKEND_URL}/api/users/login`,
       userData,
-      { withCredentials: true },
+      { withCredentials: true }
     );
-    // if (response.statusText === "OK") {
-    //   toast.success("Login Successful.....");
-    // }
+
     return response.data;
   } catch (error) {
     const message =
@@ -158,9 +156,7 @@ export const changePassword = async (formData) => {
 
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get(
-      `${BACKEND_URL}/api/users/all`
-    );
+    const response = await axios.get(`${BACKEND_URL}/api/users/all`);
     return response.data;
   } catch (error) {
     const message =
@@ -173,9 +169,7 @@ export const getAllUsers = async () => {
 
 export const getUserDetail = async (id) => {
   try {
-    const response = await axios.get(
-      `${BACKEND_URL}/api/users/${id}`
-    );
+    const response = await axios.get(`${BACKEND_URL}/api/users/${id}`);
     return response.data;
   } catch (error) {
     const message =
@@ -204,9 +198,7 @@ export const updateUserByAdmin = async ({ id, formData }) => {
 
 export const deleteUserByAdmin = async (id) => {
   try {
-    const response = await axios.delete(
-      `${BACKEND_URL}/api/users/${id}`,
-    );
+    const response = await axios.delete(`${BACKEND_URL}/api/users/${id}`);
     return response.data;
   } catch (error) {
     const message =

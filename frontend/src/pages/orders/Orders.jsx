@@ -43,9 +43,28 @@ const Orders = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
-    { field: "name", headerName: "Order Name", minWidth: 200, flex: 1 },
-
+    // { field: "id", headerName: "Order ID", minWidth: 200, flex: 0.7 },
+    { field: "name", headerName: "Order Name", minWidth: 50, flex: 0.7 },
+    {
+      field: "dept",
+      headerName: "Department",
+      minWidth: 150,
+      flex: 1,
+      renderCell: ({ row }) => {
+        return (
+          <p
+            style={{
+              color: "white",
+              borderRadius: "8px",
+              backgroundColor: "#03a5fc",
+              padding: "5px",
+            }}
+          >
+            {row.dept}
+          </p>
+        );
+      },
+    },
     {
       field: "status",
       headerName: "Status",
@@ -120,6 +139,7 @@ const Orders = () => {
         itemsQty: item.quantity,
         name: item.name,
         id: item._id,
+        dept: item.user.dept,
         status: item.orderStatus,
       });
     });

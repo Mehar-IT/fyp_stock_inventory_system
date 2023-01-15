@@ -6,7 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser, validateEmail } from "../../services/authService";
-import { SET_LOGIN, SET_NAME, SET_USER } from "../../redux/features/auth/authSlice";
+import {
+  SET_LOGIN,
+  SET_NAME,
+  SET_USER,
+} from "../../redux/features/auth/authSlice";
 import Loader from "../../components/loader/Loader";
 
 const initialState = {
@@ -44,14 +48,15 @@ const Login = () => {
     setIsLoading(true);
     try {
       const data = await loginUser(userData);
-      const roles = ['admin', 'superAdmin']
+
+      const roles = ["admin", "superAdmin"];
       if (roles.includes(data.bio)) {
         dispatch(SET_LOGIN(true));
         dispatch(SET_NAME(data.name));
         dispatch(SET_USER(data));
         toast.success("Login Successful.....");
       } else {
-        toast.info('sorry you are not allowed')
+        toast.info("sorry you are not allowed");
       }
       navigate("/orders");
       setIsLoading(false);

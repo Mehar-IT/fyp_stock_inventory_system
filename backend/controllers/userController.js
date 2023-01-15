@@ -14,10 +14,10 @@ const generateToken = (id) => {
 
 // Register User
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, dept } = req.body;
 
   // Validation
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !dept) {
     res.status(400);
     throw new Error("Please fill in all required fields");
   }
@@ -39,6 +39,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    dept,
   });
 
   //   Generate Token
@@ -58,35 +59,9 @@ const registerUser = asyncHandler(async (req, res) => {
       message: `Email sent to ${user.email} successfully`,
     });
   } catch (error) {
-
     res.status(500);
     throw new Error("Email not sent, please try again");
   }
-  // // Send HTTP-only cookie
-  // if (user) {
-  //   const { _id, name, email, photo, phone, bio } = user;
-  //   res
-  //     .status(201)
-  //     .cookie("token", token, {
-  //       path: "/",
-  //       httpOnly: true,
-  //       expires: new Date(Date.now() + 1000 * 86400), // 1 day
-  //       sameSite: "none",
-  //       secure: true,
-  //     })
-  //     .json({
-  //       _id,
-  //       name,
-  //       email,
-  //       photo,
-  //       phone,
-  //       bio,
-  //       token,
-  //     });
-  // } else {
-  //   res.status(400);
-  //   throw new Error("Invalid user data");
-  // }
 });
 
 // Login User
@@ -115,7 +90,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Send HTTP-only cookie
   if (user && passwordIsCorrect) {
-    const { _id, name, email, photo, phone, bio } = user;
+    const { _id, name, email, photo, phone, bio, dept } = user;
     res
       .status(200)
       .cookie("token", token, {
@@ -132,10 +107,9 @@ const loginUser = asyncHandler(async (req, res) => {
         photo,
         phone,
         bio,
+        dept,
         token,
       });
-
-
   } else {
     res.status(400);
     throw new Error("Invalid email or password");
@@ -159,7 +133,7 @@ const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { _id, name, email, photo, phone, bio } = user;
+    const { _id, name, email, photo, phone, bio, dept } = user;
     res.status(200).json({
       _id,
       name,
@@ -167,6 +141,7 @@ const getUser = asyncHandler(async (req, res) => {
       photo,
       phone,
       bio,
+      dept,
     });
   } else {
     res.status(400);
@@ -260,7 +235,6 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Create Reste Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-
 
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -402,8 +376,6 @@ const updateSingleUser = asyncHandler(async (req, res) => {
     res.status(500);
     throw new Error("Email not sent, please try again");
   }
-
-
 });
 // delete single profile --Admin
 const deleteSingleProfile = asyncHandler(async (req, res) => {
