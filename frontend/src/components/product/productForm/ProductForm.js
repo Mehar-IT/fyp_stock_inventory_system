@@ -45,6 +45,7 @@ const ProductForm = ({
           <label>Product Name:</label>
 
           <input
+            required
             type="text"
             placeholder="Product name"
             name="name"
@@ -54,6 +55,7 @@ const ProductForm = ({
 
           <label>Product Category:</label>
           <input
+            required
             type="text"
             placeholder="Product Category"
             name="category"
@@ -63,6 +65,7 @@ const ProductForm = ({
 
           <label>Product Price:</label>
           <input
+            required
             type="text"
             placeholder="Product Price"
             name="price"
@@ -72,22 +75,13 @@ const ProductForm = ({
 
           <label>Product Quantity:</label>
           <input
+            required
             type="text"
             placeholder="Product Quantity"
             name="quantity"
             value={product?.quantity}
             onChange={handleInputChange}
           />
-          {/* {user.bio === 'superAdmin' ? <select
-            name="status"
-            value={product?.status}
-            onChange={handleInputChange}
-          >
-            <option value="processing">processing</option>
-            <option value="accecpted">accecpted</option>
-            <option value="rejected">rejected</option>
-          </select> : null} */}
-
           <label>Product Description:</label>
           <ReactQuill
             theme="snow"
@@ -97,7 +91,12 @@ const ProductForm = ({
             formats={ProductForm.formats}
           />
           <div className="--my">
-            <button type="submit" className="--btn --btn-primary">
+            <button
+              disabled={description ? false : true}
+              style={{ cursor: `${description ? "pointer" : "not-allowed"}` }}
+              type="submit"
+              className="--btn --btn-primary"
+            >
               Save Product
             </button>
           </div>

@@ -39,7 +39,6 @@ const EditProduct = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     setProduct({ ...product, [name]: value });
   };
@@ -66,7 +65,7 @@ const EditProduct = () => {
       name: product?.name,
       category: product?.category,
       price: product?.price,
-      quantity: product?.quantit,
+      quantity: product?.quantity,
       description: description,
       image: avatar,
       // "status": product?.status

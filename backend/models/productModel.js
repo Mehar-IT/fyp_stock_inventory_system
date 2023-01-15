@@ -38,18 +38,10 @@ const productSchema = mongoose.Schema(
       required: [true, "Please add a description"],
       trim: true,
     },
-    image: {
-      type: Object,
-      default: {},
-    },
+
     avatar: {
       type: String,
-      //default:"ahsanjawed"
     },
-    // status: {
-    //   type: String,
-    //   default: "processing"
-    // },
   },
   {
     timestamps: true,

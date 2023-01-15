@@ -5,8 +5,7 @@ const cloudinary = require("cloudinary").v2;
 const mongoose = require("mongoose");
 // Create Prouct
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, sku, category, quantity, price, description, avatar } =
-    req.body;
+  const { name, category, quantity, price, description, avatar } = req.body;
 
   //   Validation
   if (!name || !category || !quantity || !price || !description) {
@@ -14,39 +13,14 @@ const createProduct = asyncHandler(async (req, res) => {
     throw new Error("Please fill in all fields");
   }
 
-  // Handle Image upload
-  let fileData = {};
-  if (req.file) {
-    // Save image to cloudinary
-    let uploadedFile;
-    try {
-      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Pinvent App",
-        resource_type: "image",
-      });
-    } catch (error) {
-      res.status(500);
-      throw new Error("Image could not be uploaded");
-    }
-
-    fileData = {
-      fileName: req.file.originalname,
-      filePath: uploadedFile.secure_url,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2),
-    };
-  }
-
   // Create Product
   const product = await Product.create({
     user: req.user.id,
     name,
-    sku,
     category,
     quantity,
     price,
     description,
-    image: fileData,
     avatar,
   });
 
@@ -98,71 +72,68 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 // Update Product
-const updateProduct = asyncHandler(async (req, res) => {
+// const updateProduct = asyncHandler(async (req, res) => {
+//   const { name, category, quantity, price, description } = req.body;
+//   const { id } = req.params;
 
-  const { name, category, quantity, price, description } = req.body;
-  const { id } = req.params;
+//   const product = await Product.findById(id);
 
+//   // if product doesnt exist
+//   if (!product) {
+//     res.status(404);
+//     throw new Error("Product not found");
+//   }
+//   // Match product to its user
+//   if (product.user.toString() !== req.user.id) {
+//     res.status(401);
+//     throw new Error("User not authorized");
+//   }
 
-  const product = await Product.findById(id);
+//   // Handle Image upload
+//   let fileData = {};
+//   if (req.file) {
+//     // Save image to cloudinary
+//     let uploadedFile;
+//     try {
+//       uploadedFile = await cloudinary.uploader.upload(req.file.path, {
+//         folder: "Pinvent App",
+//         resource_type: "image",
+//       });
+//     } catch (error) {
+//       res.status(500);
+//       throw new Error("Image could not be uploaded");
+//     }
 
-  // if product doesnt exist
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-  // Match product to its user
-  if (product.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
+//     fileData = {
+//       fileName: req.file.originalname,
+//       filePath: uploadedFile.secure_url,
+//       fileType: req.file.mimetype,
+//       fileSize: fileSizeFormatter(req.file.size, 2),
+//     };
+//   }
 
-  // Handle Image upload
-  let fileData = {};
-  if (req.file) {
-    // Save image to cloudinary
-    let uploadedFile;
-    try {
-      uploadedFile = await cloudinary.uploader.upload(req.file.path, {
-        folder: "Pinvent App",
-        resource_type: "image",
-      });
-    } catch (error) {
-      res.status(500);
-      throw new Error("Image could not be uploaded");
-    }
+//   // Update Product
+//   const updatedProduct = await Product.findByIdAndUpdate(
+//     { _id: id },
+//     {
+//       name,
+//       category,
+//       quantity,
+//       price,
+//       description,
+//       image: Object.keys(fileData).length === 0 ? product?.image : fileData,
+//     },
+//     {
+//       new: true,
+//       runValidators: true,
+//     }
+//   );
 
-    fileData = {
-      fileName: req.file.originalname,
-      filePath: uploadedFile.secure_url,
-      fileType: req.file.mimetype,
-      fileSize: fileSizeFormatter(req.file.size, 2),
-    };
-  }
-
-  // Update Product
-  const updatedProduct = await Product.findByIdAndUpdate(
-    { _id: id },
-    {
-      name,
-      category,
-      quantity,
-      price,
-      description,
-      image: Object.keys(fileData).length === 0 ? product?.image : fileData,
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
-
-
-  res.status(200).json(updatedProduct);
-});
+//   res.status(200).json(updatedProduct);
+// });
 // get all products -- admin
 const getAllProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find()
+  const products = await Product.find();
   // .populate("user", "name email bio")
   // .sort({ createdAt: -1 });
   res.status(200).json({ products });
@@ -193,7 +164,6 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
   }
   const { name, category, quantity, price, description } = req.body;
 
-
   const newUpdateData = {
     name,
     category,
@@ -202,7 +172,6 @@ const updateSingleProduct = asyncHandler(async (req, res) => {
     description,
     // status
   };
-
 
   const update_product = await Product.findByIdAndUpdate(_id, newUpdateData, {
     new: true,
@@ -232,7 +201,7 @@ module.exports = {
   getProducts,
   getProduct,
   deleteProduct,
-  updateProduct,
+  // updateProduct,
   getAllProducts, // --admin
   getSingleProduct, // --admin
   updateSingleProduct, // --admin

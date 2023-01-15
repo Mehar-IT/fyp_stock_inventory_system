@@ -6,8 +6,8 @@ const {
   createProduct,
   getProducts,
   getProduct,
-  deleteProduct,
-  updateProduct,
+  // deleteProduct,
+  // updateProduct,
   getAllProducts, // --Admin
   getSingleProduct, // --Admin
   updateSingleProduct, // --Admin
@@ -22,7 +22,13 @@ router
   .patch(protect, authorizeRole("superAdmin"), updateSingleProduct)
   .delete(protect, authorizeRole("superAdmin"), deleteSingleProduct);
 // superAdmin routes ended
-router.post("/", protect, upload.single("image"), authorizeRole("superAdmin"), createProduct);
+router.post(
+  "/",
+  protect,
+  upload.single("image"),
+  authorizeRole("superAdmin"),
+  createProduct
+);
 // router.patch("/:id", protect, upload.single("image"), authorizeRole("admin", "superAdmin"), updateProduct);
 router.get("/", protect, authorizeRole("superAdmin"), getProducts);
 router.get("/:id", protect, authorizeRole("superAdmin"), getProduct);

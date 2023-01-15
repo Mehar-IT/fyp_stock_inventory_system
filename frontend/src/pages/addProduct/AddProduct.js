@@ -38,23 +38,14 @@ const AddProduct = () => {
     setImagePreview(URL.createObjectURL(e.target.files[0]));
   };
 
-  const generateKSKU = (category) => {
-    const letter = category.slice(0, 3).toUpperCase();
-    const number = Date.now();
-    const sku = letter + "-" + number;
-    return sku;
-  };
-
   const saveProduct = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
-    formData.append("sku", generateKSKU(category));
     formData.append("category", category);
     formData.append("quantity", Number(quantity));
     formData.append("price", price);
     formData.append("description", description);
-    formData.append("image", productImage);
     formData.append("avatar", avatar);
     dispatch(createProduct(formData));
 

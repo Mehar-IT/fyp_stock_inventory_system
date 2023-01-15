@@ -7,7 +7,7 @@ const initialState = {
   products: [],
   isError: false,
   isSuccess: false,
-  isLoading: true,
+  isLoading: false,
   message: "",
   totalStoreValue: 0,
   outOfStock: 0,
@@ -111,7 +111,6 @@ export const updateProduct = createAsyncThunk(
   "products/updateProduct",
   async ({ id, formData }, thunkAPI) => {
     try {
-
       return await productService.updateProduct(id, formData);
     } catch (error) {
       const message =
