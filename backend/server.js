@@ -23,7 +23,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 // Middlewares
 app.use(
   cors({
-    // origin: ["http://localhost:3000", "https://pinvent-app.vercel.app"],
+    // origin: ["http://localhost:3000", "https://UOS-app.vercel.app"],
     credentials: true,
     origin: true,
   })
@@ -34,7 +34,6 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Routes Middleware
@@ -43,11 +42,10 @@ app.use("/api/products", productRoute);
 app.use("/api", orderRoute);
 app.use("/api/contactus", contactRoute);
 
-// Routes
-app.get("/", (req, res) => {
-  res.send("Home Page");
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build/index.html"));
 });
-
 // Error Middleware
 app.use(errorHandler);
 // Connect to DB and start server
