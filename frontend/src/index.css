@@ -335,6 +335,21 @@ p {
   color: #fff;
   background: #28a745;
 }
+.loginContainer,
+.signupContainer {
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+.signupContainer {
+  background-image: url("./data/register.jpeg");
+}
+.loginContainer {
+  background-image: url("./data/login.jpg");
+}
 
 /* Background */
 .--bg-light {

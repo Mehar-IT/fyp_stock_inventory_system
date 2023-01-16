@@ -1,0 +1,50 @@
+.home {
+  background-image: url("../../data/dashboard.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.logoHome {
+  width: 70px;
+  height: 70px;
+  margin-top: 0.625rem;
+}
+.tag {
+  padding: 0 0.75rem;
+  background-color: rgb(35, 240, 240);
+  color: rgb(58, 55, 55);
+  display: inline;
+  border-radius: 10px;
+}
+.loginButtonHome {
+  background-color: rgb(86, 236, 106);
+}
+.loginButtonHome > a {
+  font-size: 15px;
+  font-weight: 600;
+}
+.registerButtonHome {
+  font-size: 15px;
+  font-weight: 600;
+}
+.homePara {
+  font-size: 15px;
+  font-weight: 600;
+}
+.developer {
+  background-color: #68e0cf;
+  color: #3a3737;
+  margin: 10px 0;
+  width: max-content;
+  padding: 5px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.UOS {
+  font-size: 20px;
+  background-color: #1aa37a;
+  color: whitesmoke;
+  padding: 2px 5px;
+  border-radius: 10px;
+}
