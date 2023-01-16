@@ -30,6 +30,7 @@ import CreateOrder from "./pages/orders/CreateOrder";
 import OrderDetail from "./pages/orders/OrderDetail";
 import Stocks from "./pages/stocks/Stocks.jsx";
 import FilteredOrders from "./pages/orders/FilteredOrders";
+import NotFound from "./pages/notFound/NotFound";
 
 axios.defaults.withCredentials = true;
 function App() {
@@ -229,6 +230,16 @@ function App() {
             }
           />
         </Route>
+        <Route
+          path="*"
+          element={
+            <Sidebar>
+              <Layout>
+                <NotFound />
+              </Layout>
+            </Sidebar>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
