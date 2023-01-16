@@ -12,21 +12,22 @@ import { AiOutlineEye } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
 
-const initialState = {
-  orderedAt: new Date().toISOString().slice(0, 10),
-  orderStatus: "",
-  dept: "",
-};
-
 const FilteredOrders = () => {
+  const { user } = useSelector((state) => state.auth);
+
   const componentRef = useRef();
   const dispatch = useDispatch();
-  const [formData, setformData] = useState(initialState);
+  const [formData, setformData] = useState({
+    orderedAt: new Date().toISOString().slice(0, 10),
+    orderStatus: "",
+    dept: user.bio === "superAdmin" ? "" : user.dept,
+  });
   const { orderedAt, orderStatus, dept } = formData;
 
   const { loading, error, filteredOrders } = useSelector(
     (state) => state.orders
   );
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
@@ -34,7 +35,6 @@ const FilteredOrders = () => {
   };
   const columns = [
     { field: "date", headerName: "Ordered At", minWidth: 70, flex: 0.5 },
-    // { field: "name", headerName: "Order Name", minWidth: 50, flex: 0.7 },
     {
       field: "dept",
       headerName: "Department",
@@ -112,7 +112,6 @@ const FilteredOrders = () => {
     filteredOrders.forEach((item, index) => {
       rows.push({
         itemsQty: item.quantity,
-        name: item.name,
         id: item._id,
         status: item.orderStatus,
         dept: item.user.dept,
@@ -147,21 +146,26 @@ const FilteredOrders = () => {
             value={orderedAt}
             onChange={handleInputChange}
           />
-          <label htmlFor="dept">Filter by Department</label>
-          <select
-            className="filterDept"
-            name="dept"
-            id="dept"
-            value={dept}
-            onChange={handleInputChange}
-          >
-            <option value="">All Departments</option>
-            {departments.map((item, index) => (
-              <option key={index} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
+          {user.bio === "superAdmin" && (
+            <>
+              <label htmlFor="dept">Filter by Department</label>
+
+              <select
+                className="filterDept"
+                name="dept"
+                id="dept"
+                value={dept}
+                onChange={handleInputChange}
+              >
+                <option value="">All Departments</option>
+                {departments.map((item, index) => (
+                  <option key={index} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
           <label htmlFor="orderStatus">Filter by Status</label>
           <select
             value={orderStatus}

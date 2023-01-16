@@ -165,7 +165,7 @@ export default function UpdateOrder() {
             required
             style={{
               display: `${
-                orderDetail.orderStatus === "dilivered" ||
+                orderDetail.orderStatus === "delivered" ||
                 orderDetail.orderStatus === "rejected"
                   ? "none"
                   : "block"
@@ -178,21 +178,21 @@ export default function UpdateOrder() {
             <option>status options</option>
             {orderDetail.orderStatus === "accepted" ||
             orderDetail.orderStatus === "shipped" ||
-            orderDetail.orderStatus === "dilivered" ||
+            orderDetail.orderStatus === "delivered" ||
             orderDetail.orderStatus === "rejected" ? null : (
               <option value="rejected">rejected</option>
             )}
             {orderDetail.orderStatus === "rejected" ||
             orderDetail.orderStatus === "shipped" ||
-            orderDetail.orderStatus === "dilivered" ||
+            orderDetail.orderStatus === "delivered" ||
             orderDetail.orderStatus === "accepted" ? null : (
               <option value="accepted">accepted</option>
             )}
-            {orderDetail.orderStatus === "dilivered" ||
+            {orderDetail.orderStatus === "delivered" ||
             orderDetail.orderStatus === "shipped" ? null : (
               <option value="shipped">shipped</option>
             )}
-            <option value="dilivered">dilivered</option>
+            <option value="delivered">delivered</option>
           </select>
 
           <label>Product Category:</label>
