@@ -50,11 +50,21 @@ function App() {
     <BrowserRouter>
       <ToastContainer />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/filterdOrder"
+          element={
+            <Sidebar>
+              <Layout>
+                <FilteredOrders />
+              </Layout>
+            </Sidebar>
+          }
+        />
         <Route
           element={
             <ProtectedRoute
@@ -157,16 +167,7 @@ function App() {
               </Sidebar>
             }
           />
-          <Route
-            path="/filterdOrder"
-            element={
-              <Sidebar>
-                <Layout>
-                  <FilteredOrders />
-                </Layout>
-              </Sidebar>
-            }
-          />
+
           <Route
             path="/add-product"
             element={

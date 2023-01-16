@@ -29,7 +29,7 @@ router
   .get(protect, authorizeRole("superAdmin"), getAllOrder);
 router
   .route("/admin/filterOrder")
-  .get(protect, authorizeRole("superAdmin"), getFilteredOrder);
+  .get(protect, authorizeRole("admin", "superAdmin"), getFilteredOrder);
 router
   .route("/admin/order/:id")
   .put(protect, authorizeRole("superAdmin"), updateOrderStatus)
