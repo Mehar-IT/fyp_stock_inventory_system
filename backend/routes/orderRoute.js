@@ -4,6 +4,7 @@ const {
   getSingleOrder,
   myOrders,
   getAllOrder,
+  getFilteredOrder,
   // updateOrder,
   deleteOrder,
   updateOrderStatus,
@@ -26,6 +27,9 @@ router
 router
   .route("/admin/orders")
   .get(protect, authorizeRole("superAdmin"), getAllOrder);
+router
+  .route("/admin/filterOrder")
+  .get(protect, authorizeRole("superAdmin"), getFilteredOrder);
 router
   .route("/admin/order/:id")
   .put(protect, authorizeRole("superAdmin"), updateOrderStatus)

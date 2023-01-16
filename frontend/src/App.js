@@ -29,6 +29,7 @@ import UpdateOrder from "./pages/orders/UpdateOrder";
 import CreateOrder from "./pages/orders/CreateOrder";
 import OrderDetail from "./pages/orders/OrderDetail";
 import Stocks from "./pages/stocks/Stocks.jsx";
+import FilteredOrders from "./pages/orders/FilteredOrders";
 
 axios.defaults.withCredentials = true;
 function App() {
@@ -151,6 +152,16 @@ function App() {
               <Sidebar>
                 <Layout>
                   <Stocks />
+                </Layout>
+              </Sidebar>
+            }
+          />
+          <Route
+            path="/filterdOrder"
+            element={
+              <Sidebar>
+                <Layout>
+                  <FilteredOrders />
                 </Layout>
               </Sidebar>
             }

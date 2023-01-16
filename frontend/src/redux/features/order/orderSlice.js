@@ -8,6 +8,7 @@ const initialState = {
   isDeleted: false,
   isUpdated: false,
   orderDetail: {},
+  filteredOrders: [],
 };
 
 const filterSlice = createSlice({
@@ -71,6 +72,17 @@ const filterSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    getFilteredOrderStart: (state) => {
+      state.loading = true;
+    },
+    getFilteredOrderSuccess: (state, action) => {
+      state.loading = false;
+      state.filteredOrders = action.payload;
+    },
+    getFilteredOrderFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     clearError: (state) => {
       state.loading = false;
       state.error = "";
@@ -97,5 +109,8 @@ export const {
   submitOrderLoad,
   submitOrderSuccess,
   submitOrderFailed,
+  getFilteredOrderStart,
+  getFilteredOrderSuccess,
+  getFilteredOrderFailed,
 } = filterSlice.actions;
 export default filterSlice.reducer;

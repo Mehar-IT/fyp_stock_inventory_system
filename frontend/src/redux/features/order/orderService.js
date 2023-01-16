@@ -16,6 +16,9 @@ import {
   submitOrderLoad,
   submitOrderSuccess,
   submitOrderFailed,
+  getFilteredOrderStart,
+  getFilteredOrderSuccess,
+  getFilteredOrderFailed,
 } from "./orderSlice";
 
 // export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
@@ -83,5 +86,22 @@ export const submitOrder = async (dispatch, data) => {
     dispatch(submitOrderSuccess(response.data.success));
   } catch (error) {
     dispatch(submitOrderFailed(error.response.data.message));
+  }
+};
+
+export const getFilteredOrder = async (
+  dispatch,
+  dept,
+  orderedAt,
+  orderStatus
+) => {
+  try {
+    dispatch(getFilteredOrderStart());
+    const url = `${BACKEND_URL}/admin/filterOrder?orderedAt=${orderedAt}&dept=${dept}&orderStatus=${orderStatus}`;
+    const response = await axios.get(url);
+
+    dispatch(getFilteredOrderSuccess(response.data.orders));
+  } catch (error) {
+    dispatch(getFilteredOrderFailed(error.response.data.message));
   }
 };

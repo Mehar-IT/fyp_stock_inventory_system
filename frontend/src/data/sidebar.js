@@ -6,6 +6,7 @@ import {
   FaOpencart,
 } from "react-icons/fa";
 import { AiOutlineStock } from "react-icons/ai";
+import { FiFilter } from "react-icons/fi";
 
 const menu = [
   {
@@ -27,6 +28,11 @@ const menu = [
         path: "/add-order",
       },
     ],
+  },
+  {
+    title: "Filter Order",
+    icon: <FiFilter />,
+    path: "/filterdOrder",
   },
   {
     title: "Stocks",

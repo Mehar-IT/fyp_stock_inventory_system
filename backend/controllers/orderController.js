@@ -13,7 +13,7 @@ exports.newOrder = asyncHandler(async (req, res) => {
     name,
     quantity,
     description,
-    orderedAt: Date.now(),
+    orderedAt: new Date().toISOString().slice(0, 10),
     user: req.user._id,
   });
 
@@ -119,4 +119,35 @@ exports.deleteOrder = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
   });
+});
+
+exports.getFilteredOrder = asyncHandler(async (req, res, next) => {
+  const { orderStatus, orderedAt, dept } = req.query;
+
+  Order.find({
+    orderStatus: { $regex: `${orderStatus ?? ""}`, $options: "i" },
+    orderedAt: { $lte: new Date(orderedAt) },
+  })
+    .populate({
+      path: "user",
+      select: "dept",
+      match: { dept: { $regex: `${dept ?? ""}`, $options: "i" } },
+      options: { sort: { createdAt: -1 } },
+    })
+    .exec((err, orders) => {
+      if (err) {
+        res.status(500);
+        return next(new Error(err));
+      }
+      orders = orders.filter((item, index) => {
+        if (item?.user !== null) {
+          return item;
+        }
+      });
+
+      res.status(200).json({
+        success: true,
+        orders,
+      });
+    });
 });

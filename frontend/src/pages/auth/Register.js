@@ -13,6 +13,7 @@ const initialState = {
   email: "",
   password: "",
   password2: "",
+  dept: "",
 };
 
 const Register = () => {
