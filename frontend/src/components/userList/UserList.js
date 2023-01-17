@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./userList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +21,7 @@ const UsersList = () => {
   const users = useSelector(selectUsers);
   const isDeleted = useSelector(selectUserDeleted);
   const navigate = useNavigate();
+  const [searchUser, setSearchUser] = useState("");
 
   useEffect(() => {
     const getuser = async () => {
@@ -136,21 +137,33 @@ const UsersList = () => {
 
   users &&
     users.forEach((item) => {
-      rows.push({
-        id: item._id,
-        email: item.email,
-        dept: item.dept,
-        bio: item.bio,
-      });
+      if (
+        item.dept.toLowerCase().includes(searchUser) ||
+        item.email.toLowerCase().includes(searchUser) ||
+        item.bio.toLowerCase().includes(searchUser)
+      ) {
+        rows.push({
+          id: item._id,
+          email: item.email,
+          dept: item.dept,
+          bio: item.bio,
+        });
+      }
     });
 
   return (
     <Fragment>
-      {/* <MetaData title={`ALL USERS - Admin`} /> */}
-
       <div className="dashboard">
         <div className="productListContainer">
-          <h1 id="productListHeading">ALL USERS</h1>
+          <div className="alluserContainer">
+            <h1 id="productListHeading">ALL USERS </h1>
+            <input
+              type="text"
+              placeholder="Search User"
+              value={searchUser}
+              onChange={(e) => setSearchUser(e.target.value)}
+            />
+          </div>
 
           <DataGrid
             rows={rows}

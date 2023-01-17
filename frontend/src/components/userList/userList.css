@@ -8,7 +8,15 @@
   flex-direction: column;
   height: 90vh;
 }
-
+.alluserContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.alluserContainer > input {
+  margin: 15px;
+  width: 22rem;
+}
 #productListHeading {
   font: 400 2rem "Roboto";
   padding: 0.5vmax;

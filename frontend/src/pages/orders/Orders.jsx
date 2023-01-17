@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./orders.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ const Orders = () => {
     (state) => state.orders
   );
   const { user } = useSelector((state) => state.auth);
-
+  const [searchOrder, setSearchOrder] = useState("");
   const confirmDelete = (id) => {
     confirmAlert({
       title: "Delete Product",
@@ -43,7 +43,6 @@ const Orders = () => {
   };
 
   const columns = [
-    // { field: "id", headerName: "Order ID", minWidth: 200, flex: 0.7 },
     { field: "name", headerName: "Order Name", minWidth: 50, flex: 0.7 },
     {
       field: "dept",
@@ -135,18 +134,23 @@ const Orders = () => {
 
   orders &&
     orders.forEach((item, index) => {
-      rows.push({
-        itemsQty: item.quantity,
-        name: item.name,
-        id: item._id,
-        dept: item.user.dept,
-        status: item.orderStatus,
-      });
+      if (
+        item.user.dept.toLowerCase().includes(searchOrder) ||
+        item.orderStatus.toLowerCase().includes(searchOrder)
+      ) {
+        rows.push({
+          itemsQty: item.quantity,
+          name: item.name,
+          id: item._id,
+          dept: item.user.dept,
+          status: item.orderStatus,
+        });
+      }
     });
 
   useEffect(() => {
     if (error) {
-      // alert.error(error);
+      alert.error(error);
       dispatch(reset());
     }
     if (isDeleted) {
@@ -160,9 +164,18 @@ const Orders = () => {
   }
   return (
     <Fragment>
-      <h1 id="myOrdersHeading">
-        {user.bio === "superAdmin" ? "All Orders" : `${user.name}'s Orders`}
-      </h1>
+      <div className="orderHearders">
+        <h1 id="myOrdersHeading">
+          {user.bio === "superAdmin" ? "All Orders" : `${user.name}'s Orders`}
+        </h1>
+        <input
+          type="text"
+          placeholder="Search Order"
+          value={searchOrder}
+          onChange={(e) => setSearchOrder(e.target.value)}
+        />
+      </div>
+
       <div className="myOrdersPage">
         <DataGrid
           rows={rows}
