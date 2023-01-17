@@ -30,6 +30,7 @@ const userSchema = mongoose.Schema(
     },
     dept: {
       type: String,
+      unique: true,
       required: [true, "Please add your department "],
     },
     phone: {

@@ -11,11 +11,14 @@ import { SpinnerImg } from "../../components/loader/Loader";
 import { AiOutlineEye } from "react-icons/ai";
 import ReactToPrint from "react-to-print";
 import { toast } from "react-toastify";
+import logo from "../../data/uoslogo.png";
 
 const FilteredOrders = () => {
   const { user } = useSelector((state) => state.auth);
 
   const componentRef = useRef();
+  const onBeforeGetContentResolve = useRef(null);
+
   const dispatch = useDispatch();
   const [formData, setformData] = useState({
     orderedAt: new Date().toISOString().slice(0, 10),
@@ -23,6 +26,7 @@ const FilteredOrders = () => {
     dept: user.bio === "superAdmin" ? "" : user.dept,
   });
   const { orderedAt, orderStatus, dept } = formData;
+  const [invoice, setInvoice] = useState(false);
 
   const { loading, error, filteredOrders } = useSelector(
     (state) => state.orders
@@ -89,6 +93,7 @@ const FilteredOrders = () => {
     },
 
     {
+      hide: invoice,
       field: "actions",
       flex: 0.3,
       headerName: "Actions",
@@ -135,7 +140,7 @@ const FilteredOrders = () => {
   const status = ["processing", "rejected", "accepted", "shipped", "delivered"];
   return (
     <Fragment>
-      <h1 id="myOrdersHeading">"Filtere Orders"</h1>
+      {/* <h1 id="myOrdersHeading">"Filtere Orders"</h1> */}
       <div className="filterBox">
         <form className="invoiceForm">
           <label htmlFor="orderedAt">Filter by Date</label>
@@ -182,6 +187,21 @@ const FilteredOrders = () => {
           </select>
         </form>
         <ReactToPrint
+          onAfterPrint={() => {
+            return new Promise((resolve) => {
+              setInvoice(false);
+              resolve();
+            });
+          }}
+          onBeforeGetContent={() => {
+            setInvoice(true);
+            return new Promise((resolve) => {
+              onBeforeGetContentResolve.current = resolve;
+              setTimeout(() => {
+                resolve();
+              }, 500);
+            });
+          }}
           trigger={() => (
             <button className="printInvoice">Print Invoice</button>
           )}
@@ -190,12 +210,18 @@ const FilteredOrders = () => {
         />
       </div>
 
-      <div className="myOrdersPage" ref={componentRef}>
+      <div className="myFilterOrdersPage" ref={componentRef}>
+        {/* {invoice && ( */}
+        <div className="ivoiceContainer">
+          <img src={logo} alt="sindh uni log" className="filterLogo" />
+          <h3>University Of Sindh Order's Invoice</h3>
+        </div>
+        {/* )} */}
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          // pageSize={10}
+          // rowsPerPageOptions={[10]}
           disableSelectionOnClick
           className="myOrdersTable"
           autoHeight

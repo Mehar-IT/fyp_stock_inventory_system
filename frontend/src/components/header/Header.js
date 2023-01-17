@@ -11,10 +11,10 @@ const Header = () => {
   const name = useSelector(selectName);
 
   const logout = async () => {
-    dispatch(resetAllData())
-    localStorage.removeItem('persist:root')
-    localStorage.removeItem('name')
     await logoutUser();
+    dispatch(resetAllData());
+    localStorage.removeItem("persist:root");
+    localStorage.removeItem("name");
     dispatch(SET_LOGIN(false));
     navigate("/login");
   };
