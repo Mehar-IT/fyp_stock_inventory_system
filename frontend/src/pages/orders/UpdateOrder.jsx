@@ -103,7 +103,7 @@ export default function UpdateOrder() {
     <div className="add-product">
       <Card cardClass={"card"}>
         <form onSubmit={saveProduct}>
-          <label>Product Name:</label>
+          <label>Order Name:</label>
 
           <input
             disabled={
@@ -113,13 +113,13 @@ export default function UpdateOrder() {
                 : false
             }
             type="text"
-            placeholder="Product name"
+            placeholder="Order name"
             name="name"
             value={product?.name}
             onChange={handleInputChange}
           />
 
-          <label>Product Quantity:</label>
+          <label>Order Quantity:</label>
           <input
             disabled={
               product?.orderStatus !== "accepted" ||
@@ -128,7 +128,7 @@ export default function UpdateOrder() {
                 : false
             }
             type="number"
-            placeholder="Product Quantity"
+            placeholder="Order Quantity"
             name="quantity"
             value={product?.quantity}
             onChange={handleInputChange}
@@ -142,7 +142,7 @@ export default function UpdateOrder() {
               marginBottom: "5px",
             }}
           >
-            Product Status:{" "}
+            Order Status:{" "}
             <span
               style={{
                 display: "inline",
@@ -195,7 +195,7 @@ export default function UpdateOrder() {
             <option value="delivered">delivered</option>
           </select>
 
-          <label>Product Category:</label>
+          <label>Stock Category:</label>
           <input
             required
             disabled={
@@ -205,7 +205,7 @@ export default function UpdateOrder() {
                 : false
             }
             type="text"
-            placeholder="Product Category"
+            placeholder="Stock Category"
             name="product"
             value={product?.product}
             onChange={handleInputChange}
