@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -21,7 +21,7 @@ import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
 import Contact from "./pages/contact/Contact";
 import ProtectedRoute from "./components/Route/ProtectedRoute";
-import { selectUser } from "./redux/features/auth/authSlice";
+import { selectUser, selectIsLoggedIn } from "./redux/features/auth/authSlice";
 import UsersList from "./components/userList/UserList";
 import EditProfileByAdmin from "./pages/editProfileByAdmin/EditProfileByAdmin";
 import Orders from "./pages/orders/Orders";
@@ -36,7 +36,7 @@ axios.defaults.withCredentials = true;
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const isLoggedIn = useSelector(selectUser);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   useEffect(() => {
     async function loginStatus() {
@@ -46,13 +46,20 @@ function App() {
     loginStatus();
   }, [dispatch]);
   const roles = ["admin", "superAdmin"];
+
   return (
     <BrowserRouter>
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={!isLoggedIn ? <Login /> : <Navigate to="/orders" />}
+        />
+        <Route
+          path="/register"
+          element={!isLoggedIn ? <Register /> : <Navigate to="/orders" />}
+        />
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/resetpassword/:resetToken" element={<Reset />} />
         <Route
@@ -70,7 +77,6 @@ function App() {
             <ProtectedRoute
               isAuthenticated={isLoggedIn}
               adminRoute={true}
-              // isAdmin={user && user.bio === "admin" ? true : false}
               isAdmin={roles.includes(user.bio)}
             />
           }

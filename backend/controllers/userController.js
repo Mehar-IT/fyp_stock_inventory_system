@@ -49,7 +49,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   //   Generate Token
   // const token = generateToken(user._id);
-  const message = `your request is sent to admin please wait for admin approval :- \n\n ${resetPassword} \n\n If you have not requested this email then, please ignore it`;
+  const message = `your request is sent to admin please wait for admin approval :-  \n\n If you have not requested this email then, please ignore it`;
 
   try {
     await sendEmail({
@@ -260,21 +260,16 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Reset Email
   const message = `
-      <h2>Hello ${user.name}</h2>
-      <p>Please use the url below to reset your password</p>  
-      <p>This reset link is valid for only 30minutes.</p>
-
-      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
-
-      <p>Regards...</p>
-      <p>University of Sindh</p>
+      Hello ${user.name} \n
+      Please use the url below to reset your password  \n
+      This reset link is valid for only 30minutes  \n
+      ${resetUrl}  \n
+      Regards... \n
+      University of Sindh 
     `;
   const subject = "Password Reset Request";
-  const send_to = user.email;
-  const sent_from = process.env.EMAIL_USER;
 
   try {
-    // await sendEmail(subject, message, send_to, sent_from);
     await sendEmail({
       email: user.email,
       subject,
@@ -360,11 +355,12 @@ const updateSingleUser = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Profile is not updated");
   }
-  const message = `you are updated by Admin here is your details :- \n\n ${{
-    name: user.name,
-    email: user.email,
-    role: user.role,
-  }}\n\n`;
+  const message = `you are updated by Admin here is your details :- \n\n 
+  here is your detail \n\n
+    Name: ${user.name},
+    Email: ${user.email},
+    Role: ${user.bio},
+  `;
 
   try {
     await sendEmail({

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 const Forgot = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const forgot = async (e) => {
     e.preventDefault();
@@ -22,8 +23,9 @@ const Forgot = () => {
     const userData = {
       email,
     };
-
+    setLoading(true);
     await forgotPassword(userData);
+    setLoading(false);
     setEmail("");
   };
 
@@ -46,7 +48,12 @@ const Forgot = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
 
-            <button type="submit" className="--btn --btn-primary --btn-block">
+            <button
+              disabled={loading}
+              style={{ cursor: loading ? "not-allowed" : "pointer" }}
+              type="submit"
+              className="--btn --btn-primary --btn-block"
+            >
               Get Reset Email
             </button>
             <div className={styles.links}>
